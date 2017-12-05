@@ -4,15 +4,23 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import akka.pattern.ask
+
 import scala.concurrent.duration._
 import scala.io.StdIn
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import spray.json.DefaultJsonProtocol._
-object HelloWorld {
+import spray.json.DefaultJsonProtocol
+
+trait HealthJsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
+  implicit val healthFormat = jsonFormat2(Health)
+}
+
+
+object HelloWorld extends HealthJsonSupport {
+
   val host = "localhost"
   val port = 8080
 
@@ -32,7 +40,7 @@ object HelloWorld {
         get {
           onSuccess(requestHandler ? GetHealthRequest) {
             case response: HealthResponse =>
-              complete(StatusCodes.OK, s"Everything is ${response.health.status}!")
+              complete(StatusCodes.OK, response.health)
             case _ =>
               complete(StatusCodes.InternalServerError)
           }
@@ -42,7 +50,7 @@ object HelloWorld {
             statusReport =>
               onSuccess(requestHandler ? SetStatusRequest(statusReport)) {
                 case response: HealthResponse =>
-                  complete(StatusCodes.OK, s"Posted health as ${response.health.status}: ${response.health.description}")
+                  complete(StatusCodes.OK, response.health)
                 case _ =>
                   complete(StatusCodes.InternalServerError)
               }
