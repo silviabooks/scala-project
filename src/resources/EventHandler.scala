@@ -22,14 +22,16 @@ case class CreateEvent(e: Event)
 case class Response(temp: String)
 
 class EventHandler extends Actor with ActorLogging{
-
+  var events : Array[Event] = Array()
   var tempString: String = "Event created!"
-
   override def receive: Receive = {
-    case CreateEvent =>
+    case req : CreateEvent =>
       // Create a new user (add it in the DB?)
-      Console.println(tempString)
-      sender() ! Response(tempString)
+      var event = req.e
+      events :+= event
+      Console.println(event)
+      sender() ! event
+
     // TODO: add other cases
   }
 }

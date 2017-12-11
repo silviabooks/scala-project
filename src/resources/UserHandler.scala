@@ -30,10 +30,6 @@ case class User(
 //case class Ticket(id: Int, date: DateTime)
 case class CreateUser(u: User)
 
-// temporary response (To be modified)
-case class Response(temp: String)
-
-
 class UserHandler extends Actor with ActorLogging{
 
   var tempString: String = "User created!"
