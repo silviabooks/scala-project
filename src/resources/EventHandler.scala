@@ -31,7 +31,5 @@ class EventHandler extends Actor with ActorLogging{
       events :+= event
       Console.println(event)
       sender() ! event
-
-    // TODO: add other cases
   }
 }
