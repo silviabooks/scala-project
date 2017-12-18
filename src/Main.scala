@@ -101,8 +101,9 @@ object Main extends JsonUnMarshall {
         path("users") {
           get {
             onSuccess(userHandler ? GetUserList) {
-              case response: ArrayBuffer[_] =>
-                complete(StatusCodes.OK)
+              case response: UsersResponse =>
+                Console.print(response)
+                complete(StatusCodes.OK, response.users)
               case _ =>
                 complete(StatusCodes.InternalServerError)
             }

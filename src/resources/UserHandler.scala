@@ -21,23 +21,24 @@ case class User(
 case class CreateUser(u: User)
 case object GetUserList
 case class GetSingleUser(id: Long)
-case class UsersResponse(users: ArrayBuffer[User])
+case class UsersResponse(users: Array[User])
 case class SingleUserResponse(user: User)
 
 class UserHandler extends Actor with ActorLogging{
 
-  var users : ArrayBuffer[User] = new ArrayBuffer[User]()
+  var users : Array[User] = Array()
   var tempString: String = "User created!"
 
   // Initialization with random data
   var u1 : User = User(1, "Silvia", "092111", "silvia@gmail.it")
   var u2 : User = User(2, "Alessandro", "092222", "alessandro@gmail.it")
-  users += (u1, u2)
+  users :+= u1
+  users :+= u2
 
   override def receive: Receive = {
     case req : CreateUser =>
       var user = req.u
-      users += user
+      users :+= user
       Console.println(tempString)
       // add in DB ?
       sender() ! user
