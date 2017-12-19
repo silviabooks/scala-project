@@ -16,12 +16,11 @@ import scala.concurrent.duration._
 import scala.io.StdIn
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, RootJsonFormat}
 
-import scala.collection.mutable.ArrayBuffer
 
 trait JsonUnMarshall extends SprayJsonSupport with DefaultJsonProtocol {
 
-  // see https://stackoverflow.com/questions/25178108/converting-datetime-to-a-json-string
-
+  // Conversion of DateTime in Json format, see:
+  // https://stackoverflow.com/questions/25178108/converting-datetime-to-a-json-string
   implicit object DateJsonFormat extends RootJsonFormat[DateTime] {
     override def write(obj: DateTime) = JsString(obj.toIsoDateString())
 
@@ -34,10 +33,12 @@ trait JsonUnMarshall extends SprayJsonSupport with DefaultJsonProtocol {
     }
   }
 
+  // implicit variables necessary for the marshalling/unmarshalling of the case classes
   implicit val eventFormat  = jsonFormat4(Event)
   implicit val userFormat   = jsonFormat4(User)
   implicit val healthFormat = jsonFormat2(Health)
 }
+
 
 object Main extends JsonUnMarshall {
 
@@ -50,10 +51,12 @@ object Main extends JsonUnMarshall {
     implicit val executionContext = system.dispatcher
     implicit val timeout = Timeout(20.seconds)
 
+    // Initialization of the actors
     val requestHandler = system.actorOf(RequestHandler.props(), "requestHandler")
     val eventHandler   = system.actorOf(EventHandler.props(), "eventHandler")
     val userHandler    = system.actorOf(UserHandler.props(), "userHandler")
 
+    // Route
     val route : Route = {
 
       path("hello") {
@@ -102,7 +105,6 @@ object Main extends JsonUnMarshall {
           get {
             onSuccess(userHandler ? GetUserList) {
               case response: UsersResponse =>
-                Console.print(response)
                 complete(StatusCodes.OK, response.users)
               case _ =>
                 complete(StatusCodes.InternalServerError)
@@ -118,20 +120,35 @@ object Main extends JsonUnMarshall {
                       complete(StatusCodes.InternalServerError)
                   }
               }
-            } ~
-          path("users" / LongNumber){
-            userId =>
-              get{
-                onSuccess(userHandler ? GetSingleUser(userId)) {
-                  case response: SingleUserResponse =>
+            }
+        } ~
+        path("users" / LongNumber) { userId =>
+            get {
+              onSuccess(userHandler ? GetSingleUser(userId)) {
+                case response: SingleUserResponse =>
+                  Console.println(s"Getting user with id #$userId...")
+                  if(response.user == null) {
+                    Console.println("User ID not found.")
+                    complete(StatusCodes.NotFound)
+                  } else {
                     complete(StatusCodes.OK, response.user)
-                  case _ =>
-                    complete(StatusCodes.InternalServerError)
-                }
+                  }
+                case _ =>
+                  complete(StatusCodes.InternalServerError)
               }
-          }
-
-        }
+            } ~
+            delete {
+              // delete a user and return the user itself
+              onSuccess(userHandler ? DeleteUser(userId)) {
+                case response: DeleteUserResponse =>
+                  Console.println(s"Deleting user with id #$userId...")
+                  // TODO: handle unexistent id
+                  complete(StatusCodes.OK, response.user)
+                case _ =>
+                  complete(StatusCodes.InternalServerError)
+              }
+            }
+      }
     }
 
     val bindingFuture = Http().bindAndHandle(route, host, port)
