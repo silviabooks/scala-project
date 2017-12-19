@@ -2,7 +2,6 @@ package resources
 
 import akka.actor.{Actor, ActorLogging, Props}
 //import akka.http.scaladsl.model.DateTime
-import scala.collection.mutable.ArrayBuffer
 
 
 object UserHandler{
@@ -33,8 +32,8 @@ class UserHandler extends Actor with ActorLogging {
   var tempString: String = "User created!"
 
   // Initialization with random data
-  var u1 : User = User(1, "Silvia", "092111", "silvia@gmail.it")
-  var u2 : User = User(2, "Alessandro", "092222", "alessandro@gmail.it")
+  var u1 : User = User(1, "Silvia", "092111", "silvia@unict.it")
+  var u2 : User = User(2, "Alessandro", "092222", "alessandro@unict.it")
   users :+= u1
   users :+= u2
 
@@ -49,28 +48,20 @@ class UserHandler extends Actor with ActorLogging {
       Console.println("Get users list")
       sender() ! UsersResponse(users)
     case req : GetSingleUser =>
-
       // save the request parameter in variable 'id'
       val id: Long = req.id
       var res : User = null
       // search in users array and send the correct user
-      for(u <- users) {
-        if(u.id == id) {
+      for(u <- users)
+        if(u.id == id)
           res = u
-        }
-      }
-      if(res == null) {
-        sender() ! SingleUserResponse(null)
-      } else {
-        // TODO: add user id control (if the id I pass with the HTTP req doesn't exist, returns an error)
-        sender() ! SingleUserResponse(res)
-      }
+      sender() ! SingleUserResponse(res)
+
     case req : DeleteUser =>
       // save the request parameter in variable 'id'
       val id: Long = req.id
       var res : User = null
       var indexToDelete : Long = -1
-
       // ToDo: delete the user from the DB
       // search in users array and delete the correct user
       for(i <- users.indices) {
@@ -81,13 +72,15 @@ class UserHandler extends Actor with ActorLogging {
         }
       }
       if(indexToDelete != -1) {
-        // delete the user from the array (I had to use this trick )
+        // delete the user from the array (I had to use this trick because the array isn't mutable)
         val temp = users.toBuffer
         temp.remove(indexToDelete.toInt)
         users = temp.toArray
-        Console.println("forse elimina l'elemento per davvero")
+        //Console.println("Deleted user ")
         sender() ! DeleteUserResponse(res)
+      } else {
+        // the user with the given ID wasn't found (maybe this is redundant, but I don't care)
+        sender() ! DeleteUserResponse(null)
       }
-    // TODO: add else
   }
 }

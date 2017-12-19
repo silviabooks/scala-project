@@ -142,8 +142,11 @@ object Main extends JsonUnMarshall {
               onSuccess(userHandler ? DeleteUser(userId)) {
                 case response: DeleteUserResponse =>
                   Console.println(s"Deleting user with id #$userId...")
-                  // TODO: handle unexistent id
-                  complete(StatusCodes.OK, response.user)
+                  if(response.user == null) {
+                    complete(StatusCodes.NotFound)
+                  } else {
+                    complete(StatusCodes.OK, response.user)
+                  }
                 case _ =>
                   complete(StatusCodes.InternalServerError)
               }
