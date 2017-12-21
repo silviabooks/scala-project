@@ -1,0 +1,38 @@
+version: '2'
+services:
+#    CHANGEME_apache:
+#      container_name: CHANGEME_apache
+#      build: apache
+#      restart: always
+#      volumes:
+#        - ../public_html:/var/www
+#        - ./apache/sites-available:/etc/apache2/sites-available
+#      ports:
+#        - 80:80
+#      links:
+#        - CHANGEME_php:php
+#        - CHANGEME_mongodb:mongo
+#      environment:
+#        - VIRTUALHOST=CHANGEME.dev
+#    CHANGEME_php:
+#      container_name: CHANGEME_php
+#      build: php-fpm
+#      restart: always
+#      volumes:
+#        - ../public_html:/var/www
+#      ports:
+#        - 9000:9000
+    advproject_mongodb:
+      image: mongo:latest
+      container_name: "advproject_mongodb"
+      environment:
+        - MONGO_DATA_DIR=/data/db
+        - MONGO_LOG_DIR=/dev/null
+      volumes:
+        - advproject_db:/data/db
+      ports:
+        - 27017:27017
+      command: mongod --smallfiles # --quiet
+
+volumes:
+    advproject_db:
