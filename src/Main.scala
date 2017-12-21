@@ -10,6 +10,8 @@ import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import akka.pattern.ask
+import model.Event
+import org.bson.types.ObjectId
 import resources._
 
 import scala.concurrent.duration._
@@ -24,17 +26,24 @@ trait JsonUnMarshall extends SprayJsonSupport with DefaultJsonProtocol {
   implicit object DateJsonFormat extends RootJsonFormat[DateTime] {
     override def write(obj: DateTime) = JsString(obj.toIsoDateString())
 
-    override def read(json: JsValue) : DateTime = {
+    override def read(json: JsValue): DateTime = {
       val x = DateTime.fromIsoDateTimeString(json.convertTo[String])
       x match {
         case Some(d) => d
-        case None    => throw new DeserializationException("Error on date deserialization")
+        case None => throw new DeserializationException("Error on date deserialization")
       }
     }
   }
 
+  implicit object ObjectIdFormat extends RootJsonFormat[ObjectId] {
+    override def write(obj: ObjectId) = JsString(obj.toString())
+
+    override def read(json: JsValue): ObjectId =
+      new ObjectId()
+  }
+
   // implicit variables necessary for the marshalling/unmarshalling of the case classes
-  implicit val eventFormat  = jsonFormat4(Event)
+  implicit val eventFormat  = jsonFormat5(Event)
   implicit val userFormat   = jsonFormat4(User)
   implicit val healthFormat = jsonFormat2(Health)
 }
@@ -82,9 +91,9 @@ object Main extends JsonUnMarshall {
       } ~
         path("events") {
           get {
-            onSuccess(requestHandler ? GetHealthRequest) {
-              case response: HealthResponse =>
-                complete(StatusCodes.OK, response.health)
+            onSuccess(eventHandler ? GetEvents()) {
+              case response: Array[Event] =>
+                complete(StatusCodes.OK, response)
               case _ =>
                 complete(StatusCodes.InternalServerError)
             }
