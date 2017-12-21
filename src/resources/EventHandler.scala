@@ -9,6 +9,8 @@ object EventHandler{
   }
 }
 
+
+// Maybe this should be just a class in our "model"
 case class Event(
                 name: String,
                 category: String,
@@ -16,10 +18,12 @@ case class Event(
                 description: String
                 )
 
-case class CreateEvent(e: Event)
 
-// temporary response (To be modified)
-case class Response(temp: String)
+case class CreateEvent(e: Event)
+case class GetEvents()
+case class GetEvent(id : Int)
+case class PutEvent(id : Int, e: Event)
+case class DeleteEvent(id : Int)
 
 class EventHandler extends Actor with ActorLogging{
   var events : Array[Event] = Array()
@@ -27,9 +31,17 @@ class EventHandler extends Actor with ActorLogging{
   override def receive: Receive = {
     case req : CreateEvent =>
       // Create a new user (add it in the DB?)
-      var event = req.e
-      events :+= event
-      Console.println(event)
-      sender() ! event
+      events :+= req.e
+      sender() ! events.last
+    case _ : GetEvents =>
+      sender() ! events
+    case e : GetEvent =>
+      sender() ! events(e.id)
+    case req : PutEvent =>
+      events(req.id) = req.e
+      sender() ! events(req.id)
+    case e : DeleteEvent =>
+      events(e.id) = null
   }
+
 }
