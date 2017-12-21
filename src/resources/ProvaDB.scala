@@ -7,6 +7,8 @@ import org.mongodb.scala.{Completed,
   MongoDatabase, Observable,
   Observer}
 
+import org.mongodb.scala.bson._
+
 // case class and companion object
 object UserProva {
   def apply(name: String, telNumber: String, email: String): UserProva =
@@ -25,14 +27,15 @@ object ProvaDB extends App {
   // default connection on
   val mongoClient: MongoClient = MongoClient()
   val database: MongoDatabase = mongoClient.getDatabase("mydb")
-  val collection: MongoCollection[UserProva] = database.getCollection("test")
-  val esempio: UserProva = UserProva("silvia", "111", "silvia@io.it")
-  val observable: Observable[Completed] = collection.insertOne(esempio)
-  // This doesn't works!
-  observable.subscribe(new Observer[Completed] {
-    override def onNext(result: Completed): Unit = println("Inserted")
-    override def onError(e: Throwable): Unit = println("Failed")
-    override def onComplete(): Unit = println("Completed")
+  val collection: MongoCollection[Document] = database.getCollection("test")
+  val es2: Document = Document("Lorem" -> "Ipsum", "Dolor" -> "Sit", "Amet" -> "consectetuer")
+
+  val insertObservable: Observable[Completed] = collection.insertOne(es2)
+
+  insertObservable.subscribe(new Observer[Completed] {
+    override def onNext(result: Completed): Unit = println(s"onNext: $result")
+    override def onError(e: Throwable): Unit = println(s"onError: $e")
+    override def onComplete(): Unit = println("onComplete")
   })
 
   scala.io.StdIn.readLine()
