@@ -1,4 +1,4 @@
-package resources
+package controllers
 
 import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.scaladsl.model.DateTime

@@ -1,15 +1,14 @@
-package resources
-
+package devTests
 
 import org.bson.codecs.configuration.CodecRegistries
 import org.bson.types.ObjectId
-import org.mongodb.scala.{Completed, MongoClient, MongoCollection, MongoDatabase, Observable, Observer}
 import org.mongodb.scala.bson._
+import org.mongodb.scala.{Completed, MongoClient, MongoCollection, MongoDatabase, Observable, Observer}
 
 // Custom case classes codecs for mongo scala driver
 // https://github.com/mongodb/mongo-scala-driver/blob/master/examples/src/test/scala/tour/QuickTourCaseClass.scala
-import org.mongodb.scala.bson.codecs.Macros._
 import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
+import org.mongodb.scala.bson.codecs.Macros._
 
 // case class and companion object
 object UserProva {

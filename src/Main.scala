@@ -12,7 +12,8 @@ import akka.util.Timeout
 import akka.pattern.ask
 import model.Event
 import org.bson.types.ObjectId
-import resources._
+import controllers._
+import devTests._
 
 import scala.concurrent.duration._
 import scala.io.StdIn
