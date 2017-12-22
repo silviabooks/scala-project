@@ -14,6 +14,7 @@ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
 // We're using a NoSql Database
 object BoxOffice {
   // TODO put here the others case classes to be included in the codecRegistry
+  // TODO Exception handling for unreachable database
   val codecRegistry = CodecRegistries.fromRegistries(CodecRegistries.fromProviders(classOf[Event], classOf[Event]), DEFAULT_CODEC_REGISTRY)
   val mongoClient: MongoClient = MongoClient()
   // Here we should use some "constant" or application property to call elsewhere if needed and to be not hardcoded
