@@ -11,7 +11,7 @@ import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import akka.pattern.ask
-import model.Event
+import model.{Event, User}
 import org.bson.types.ObjectId
 import controllers._
 import devTests._
@@ -96,107 +96,106 @@ object Main extends JsonUnMarshall {
             }
           }
       } ~
-      path("events") {
-        get {
-          onSuccess(eventHandler ? GetEvents()) {
-            case response: Array[Event] =>
-              complete(StatusCodes.OK, response)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
-        } ~
-          post {
-            entity(as[Event]) {
-              event =>
-                onSuccess(eventHandler ? CreateEvent(event)) {
-                  case Success =>
-                    complete(StatusCodes.OK)
-                  case _ =>
-                    complete(StatusCodes.InternalServerError)
-                }
-            }
-          }
-      } ~
-      path("events" / Segment) { eventId =>
-        get {
-          onSuccess(eventHandler ? GetEvent(eventId)) {
-            case r : Array[Event] =>
-              complete(StatusCodes.OK, r)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
-        } ~
-        put {
-          entity(as[Event]) { event =>
-            onSuccess(eventHandler ? PutEvent(eventId, event)) {
-              case Success =>
-                complete(StatusCodes.OK)
-              case a: Any =>
-                print(a)
+        path("events") {
+          get {
+            onSuccess(eventHandler ? GetEvents()) {
+              case response: Array[Event] =>
+                complete(StatusCodes.OK, response)
+              case _ =>
                 complete(StatusCodes.InternalServerError)
             }
-          }
+          } ~
+            post {
+              entity(as[Event]) {
+                event =>
+                  onSuccess(eventHandler ? CreateEvent(event)) {
+                    case Success =>
+                      complete(StatusCodes.OK)
+                    case _ =>
+                      complete(StatusCodes.InternalServerError)
+                  }
+              }
+            }
         } ~
-        delete {
-          onSuccess(eventHandler ? DeleteEvent(eventId)) {
-            case Success =>
-              complete(StatusCodes.OK)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
-        }
-      } ~
-      path("users") {
-        get {
-          onSuccess(userHandler ? GetUserList) {
-            case response: UsersResponse =>
-              complete(StatusCodes.OK, response.users)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
-        } ~
-          post {
-            entity(as[User]) {
-              user =>
-                onSuccess(userHandler ? CreateUser(user)) {
-                  case response: User =>
-                    complete(StatusCodes.OK, response)
-                  case _ =>
+        path("events" / Segment) { eventId =>
+          get {
+            onSuccess(eventHandler ? GetEvent(eventId)) {
+              case r : Array[Event] =>
+                complete(StatusCodes.OK, r)
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
+          } ~
+            put {
+              entity(as[Event]) { event =>
+                onSuccess(eventHandler ? PutEvent(eventId, event)) {
+                  case Success =>
+                    complete(StatusCodes.OK)
+                  case a: Any =>
+                    print(a)
                     complete(StatusCodes.InternalServerError)
                 }
+              }
+            } ~
+            delete {
+              onSuccess(eventHandler ? DeleteEvent(eventId)) {
+                case Success =>
+                  complete(StatusCodes.OK)
+                case _ =>
+                  complete(StatusCodes.InternalServerError)
+              }
             }
-          }
-      } ~
-      path("users" / LongNumber) { userId =>
-        get {
-          onSuccess(userHandler ? GetSingleUser(userId)) {
-            case response: SingleUserResponse =>
-              Console.println(s"Getting user with id #$userId...")
-              if(response.user == null) {
-                Console.println("User ID not found.")
-                complete(StatusCodes.NotFound)
-              } else {
-                complete(StatusCodes.OK, response.user)
-              }
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
         } ~
-        delete {
-          // delete a user and return the user itself
-          onSuccess(userHandler ? DeleteUser(userId)) {
-            case response: DeleteUserResponse =>
-              Console.println(s"Deleting user with id #$userId...")
-              if(response.user == null) {
-                complete(StatusCodes.NotFound)
-              } else {
-                complete(StatusCodes.OK, response.user)
+        path("users") {
+          get {
+            onSuccess(userHandler ? GetUsers()) {
+              case response: Array[User] =>
+                complete(StatusCodes.OK, response)
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
+          } ~
+            post {
+              entity(as[User]) {
+                user =>
+                  onSuccess(userHandler ? CreateUser(user)) {
+                    case response: User =>
+                      complete(StatusCodes.OK, response)
+                    case _ =>
+                      complete(StatusCodes.InternalServerError)
+                  }
               }
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
+            }
+        } ~
+        path("users" / Segment) { userId =>
+          get {
+            onSuccess(userHandler ? GetUser(userId)) {
+              case response: User =>
+                Console.println(s"Getting user with id #$userId...")
+                if(response.equals(null)) {
+                  Console.println("User ID not found.")
+                  complete(StatusCodes.NotFound)
+                } else {
+                  complete(StatusCodes.OK, response)
+                }
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
+          } ~
+            delete {
+              onSuccess(userHandler ? DeleteUser(userId)) {
+                case response: DeleteUserResponse =>
+                  Console.println(s"Deleting user with id #$userId...")
+                  if(response == null) {
+                    complete(StatusCodes.NotFound)
+                  } else {
+                    complete(StatusCodes.OK, "User deleted!")
+                  }
+                case _ =>
+                  complete(StatusCodes.InternalServerError)
+              }
+            }
         }
-      }
     }
 
     val bindingFuture = Http().bindAndHandle(route, host, port)
