@@ -33,7 +33,10 @@ class EventHandler extends Actor with ActorLogging{
       val requester = context.sender()
       Events().insertOne(req.e).subscribe(new Observer[Completed] {
         override def onComplete(): Unit = requester ! Success
-        override def onError(throwable: Throwable) = requester ! Failure
+        override def onError(throwable: Throwable) = {
+          println(throwable.getMessage()) // TODO Log
+          requester ! Failure
+        }
         override def onNext(tResult: Completed) = null
       })
 
@@ -49,7 +52,6 @@ class EventHandler extends Actor with ActorLogging{
         requester ! results.toArray
       })
     case req : PutEvent => // Success or Failure
-      print("I'mHere)")
       val requester = context.sender()
       Events().replaceOne(Filters.eq("_id", BsonObjectId(req.id)), req.e).subscribe(new Observer[UpdateResult] {
         override def onError(e: Throwable): Unit = {

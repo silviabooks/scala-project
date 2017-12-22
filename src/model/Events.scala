@@ -1,20 +1,21 @@
 package model
 
-import akka.http.javadsl.model.DateTime
+import java.util.Date
 
+import akka.http.scaladsl.model.DateTime
 import org.bson.types.ObjectId
 import org.mongodb.scala.MongoCollection
 
 case class Event(
   _id:         ObjectId,
   name:        String,
-  date:        String, // TODO FIX for DateTime and JSON (un)marshalling
+  date:        DateTime,
   category:    String,
   description: String
 )
 
 object EventCreator {
-  def apply(name: String, date: String, category: String, description: String) : Event = {
+  def apply(name: String, date: DateTime, category: String, description: String) : Event = {
     Event(new ObjectId(), name, date, category, description)
   }
 }

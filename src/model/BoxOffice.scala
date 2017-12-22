@@ -1,7 +1,9 @@
 package model
 
+import akka.http.scaladsl.model.DateTime
 import org.bson.codecs.configuration.CodecRegistries
 import org.mongodb.scala.{MongoClient, MongoDatabase}
+import utils.DateTimeCodec
 
 // Custom case classes codecs for mongo scala driver
 // https://github.com/mongodb/mongo-scala-driver/blob/master/examples/src/test/scala/tour/QuickTourCaseClass.scala
@@ -15,7 +17,8 @@ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
 object BoxOffice {
   // TODO put here the others case classes to be included in the codecRegistry
   // TODO Exception handling for unreachable database
-  val codecRegistry = CodecRegistries.fromRegistries(CodecRegistries.fromProviders(classOf[Event], classOf[Event]), DEFAULT_CODEC_REGISTRY)
+  val codecRegistry = CodecRegistries.fromRegistries(CodecRegistries.fromCodecs(new DateTimeCodec()), CodecRegistries.fromProviders(classOf[Event]), DEFAULT_CODEC_REGISTRY)
+
   val mongoClient: MongoClient = MongoClient()
   // Here we should use some "constant" or application property to call elsewhere if needed and to be not hardcoded
   val database: MongoDatabase = mongoClient.getDatabase("boxoffice").withCodecRegistry(codecRegistry)

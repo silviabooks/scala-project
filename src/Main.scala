@@ -28,7 +28,7 @@ trait JsonUnMarshall extends SprayJsonSupport with DefaultJsonProtocol {
   // Conversion of DateTime in Json format, see:
   // https://stackoverflow.com/questions/25178108/converting-datetime-to-a-json-string
   implicit object DateJsonFormat extends RootJsonFormat[DateTime] {
-    override def write(obj: DateTime) = JsString(obj.toIsoDateString())
+    override def write(obj: DateTime) = JsString(obj.toIsoDateTimeString())
 
     override def read(json: JsValue): DateTime = {
       val x = DateTime.fromIsoDateTimeString(json.convertTo[String])
@@ -49,8 +49,7 @@ trait JsonUnMarshall extends SprayJsonSupport with DefaultJsonProtocol {
       }
     }
   }
-
-  // implicit variables necessary for the marshalling/unmarshalling of the case classes
+  // implicit variables needed to the marshalling/unmarshalling of the case classes
   implicit val eventFormat  = jsonFormat5(Event)
   implicit val userFormat   = jsonFormat4(User)
   implicit val healthFormat = jsonFormat2(Health)
