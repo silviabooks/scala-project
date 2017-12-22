@@ -4,6 +4,7 @@ import akka.actor.{Actor, ActorLogging, Props}
 import akka.http.scaladsl.model.DateTime
 import model.{Event, Events}
 import org.mongodb.scala.{Completed, Observer}
+import org.mongodb.scala.model.Filters._
 
 object EventHandler{
   def props(): Props = {
@@ -30,8 +31,8 @@ class EventHandler extends Actor with ActorLogging{
       val requester = context.sender()
       Events().insertOne(req.e).subscribe(new Observer[Completed] {
         override def onComplete(): Unit = requester ! req.e
-        override def onError(throwable: Throwable) = null
-        override def onNext(tResult: Completed) = null
+        override def onError(throwable: Throwable) = ???
+        override def onNext(tResult: Completed) = ???
       })
 
     case _ : GetEvents =>

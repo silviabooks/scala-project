@@ -10,7 +10,7 @@ import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import akka.pattern.ask
-import model.Event
+import model.{Event, User}
 import org.bson.types.ObjectId
 import resources._
 
@@ -112,9 +112,9 @@ object Main extends JsonUnMarshall {
         } ~
         path("users") {
           get {
-            onSuccess(userHandler ? GetUserList) {
-              case response: UsersResponse =>
-                complete(StatusCodes.OK, response.users)
+            onSuccess(userHandler ? GetUsers()) {
+              case response: Array[User] =>
+                complete(StatusCodes.OK, response)
               case _ =>
                 complete(StatusCodes.InternalServerError)
             }
@@ -131,16 +131,17 @@ object Main extends JsonUnMarshall {
               }
             }
         } ~
-        path("users" / LongNumber) { userId =>
+      // TODO: Attenzionare sta cosa della direttiva
+        path("users" / Remaining) { userId =>
             get {
-              onSuccess(userHandler ? GetSingleUser(userId)) {
-                case response: SingleUserResponse =>
+              onSuccess(userHandler ? GetUser(userId)) {
+                case response: User =>
                   Console.println(s"Getting user with id #$userId...")
-                  if(response.user == null) {
+                  if(response.equals(null)) {
                     Console.println("User ID not found.")
                     complete(StatusCodes.NotFound)
                   } else {
-                    complete(StatusCodes.OK, response.user)
+                    complete(StatusCodes.OK, response)
                   }
                 case _ =>
                   complete(StatusCodes.InternalServerError)
@@ -151,10 +152,10 @@ object Main extends JsonUnMarshall {
               onSuccess(userHandler ? DeleteUser(userId)) {
                 case response: DeleteUserResponse =>
                   Console.println(s"Deleting user with id #$userId...")
-                  if(response.user == null) {
+                  if(response == null) {
                     complete(StatusCodes.NotFound)
                   } else {
-                    complete(StatusCodes.OK, response.user)
+                    complete(StatusCodes.OK, "User deleted!")
                   }
                 case _ =>
                   complete(StatusCodes.InternalServerError)
