@@ -1,4 +1,4 @@
-package org.unict.ing.advlanguages.boxoffice
+package devTests
 
 import akka.actor.{Actor, ActorLogging, Props}
 

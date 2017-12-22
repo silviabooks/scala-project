@@ -1,4 +1,4 @@
-package resources
+package controllers
 
 import akka.actor.{Actor, ActorLogging, Props}
 import org.mongodb.scala.result.DeleteResult
