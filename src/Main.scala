@@ -3,7 +3,7 @@ package org.unict.ing.advlanguages.boxoffice
 
 import akka.actor.ActorSystem
 import akka.actor.Status.Success
-import akka.http.scaladsl.model.{DateTime, StatusCodes}
+import akka.http.scaladsl.model.{DateTime, StatusCode, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
@@ -21,7 +21,6 @@ import scala.io.StdIn
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, RootJsonFormat}
 
 import scala.util.Try
-
 
 trait JsonUnMarshall extends SprayJsonSupport with DefaultJsonProtocol {
 
@@ -118,11 +117,33 @@ object Main extends JsonUnMarshall {
               }
             }
         } ~
+        path("events" / "search" / Segment) { pattern =>
+          get {
+            onSuccess(eventHandler ? SearchEvent(pattern)) {
+              case r : Array[Event] =>
+                complete(StatusCodes.OK, r)
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
+          }
+        } ~
+        path("events" / "categories") {
+          get {
+            onSuccess(eventHandler ? GetCategories) {
+              case r : Array[String] =>
+                complete(StatusCodes.OK, r)
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
+          }
+        } ~
         path("events" / Segment) { eventId =>
           get {
             onSuccess(eventHandler ? GetEvent(eventId)) {
               case r : Array[Event] =>
                 complete(StatusCodes.OK, r)
+              case r : StatusCode =>
+                complete(r)
               case _ =>
                 complete(StatusCodes.InternalServerError)
             }
