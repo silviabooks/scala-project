@@ -11,12 +11,14 @@ case class Event(
   name:        String,
   date:        DateTime,
   category:    String,
-  description: String
+  description: String,
+  quantity:    Int,
+  price:       Double // Double has a standard Codec for Mongo Scala Driver, but BigDecimal
 )
 
 object EventCreator {
-  def apply(name: String, date: DateTime, category: String, description: String) : Event = {
-    Event(new ObjectId(), name, date, category, description)
+  def apply(name: String, date: DateTime, category: String, description: String, quantity: Int, price: Double) : Event = {
+    Event(new ObjectId(), name, date, category, description, quantity, price)
   }
 }
 
