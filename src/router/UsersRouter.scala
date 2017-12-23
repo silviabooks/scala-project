@@ -21,17 +21,17 @@ object UsersRouter extends JsonMarshalling with ActorInitializer {
             complete(StatusCodes.InternalServerError)
         }
       } ~
-        post {
-          entity(as[User]) {
-            user =>
-              onSuccess(userHandler ? CreateUser(user)) {
-                case response: User =>
-                  complete(StatusCodes.OK, response)
-                case _ =>
-                  complete(StatusCodes.InternalServerError)
-              }
-          }
+      post {
+        entity(as[User]) {
+          user =>
+            onSuccess(userHandler ? CreateUser(user)) {
+              case response: User =>
+                complete(StatusCodes.OK, response)
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
         }
+      }
     } ~
     path("users" / Segment) { userId =>
       get {
@@ -48,19 +48,19 @@ object UsersRouter extends JsonMarshalling with ActorInitializer {
             complete(StatusCodes.InternalServerError)
         }
       } ~
-        delete {
-          onSuccess(userHandler ? DeleteUser(userId)) {
-            case response: DeleteUserResponse =>
-              Console.println(s"Deleting user with id #$userId...")
-              if(response == null) {
-                complete(StatusCodes.NotFound)
-              } else {
-                complete(StatusCodes.OK, "User deleted!")
-              }
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
+      delete {
+        onSuccess(userHandler ? DeleteUser(userId)) {
+          case response: DeleteUserResponse =>
+            Console.println(s"Deleting user with id #$userId...")
+            if(response == null) {
+              complete(StatusCodes.NotFound)
+            } else {
+              complete(StatusCodes.OK, "User deleted!")
+            }
+          case _ =>
+            complete(StatusCodes.InternalServerError)
         }
+      }
     }
   }
 }
