@@ -3,21 +3,19 @@ package devTests
 import scala.concurrent.duration._
 import controllers._
 import model.{Event, EventCreator}
+
 import scala.collection.mutable.ListBuffer
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model.{DateTime}
+import akka.http.scaladsl.model.DateTime
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import akka.pattern.ask
+import utils.ActorInitializer
 // Custom case classes codecs for mongo scala driver
 // https://github.com/mongodb/mongo-scala-driver/blob/master/examples/src/test/scala/tour/QuickTourCaseClass.scala
 
-object MongoSeed extends App {
+object MongoSeed extends App with ActorInitializer {
   println("Starting seeding")
-  implicit val system = ActorSystem("my-system")
-  implicit val materializer = ActorMaterializer()
-  implicit val executionContext = system.dispatcher
-  implicit val timeout = Timeout(20.seconds)
 
   // Initialization of the actors
   val requestHandler = system.actorOf(RequestHandler.props(), "requestHandler")
