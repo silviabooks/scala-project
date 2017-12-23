@@ -10,7 +10,7 @@ import model.{User}
 import utils.{ActorInitializer, JsonMarshalling}
 
 object UsersRouter extends JsonMarshalling with ActorInitializer {
-  val userHandler    = system.actorOf(UserHandler.props(), "userHandler")
+  val userHandler = system.actorOf(UserHandler.props(), "userHandler")
   def apply () : Route = {
     path("users") {
       get {

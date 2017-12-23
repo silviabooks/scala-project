@@ -37,10 +37,10 @@ class EventHandler extends Actor with ActorLogging{
       // In order to have the sender in the async scope of the observer
       val requester = context.sender()
       Events().insertOne(req.e).subscribe(new Observer[Completed] {
-        override def onComplete(): Unit = requester ! Success
+        override def onComplete(): Unit = requester ! StatusCodes.OK
         override def onError(throwable: Throwable) = {
           println(throwable.getMessage()) // TODO Log
-          requester ! Failure
+          requester ! StatusCodes.BadRequest
         }
         override def onNext(tResult: Completed) = null
       })
@@ -68,9 +68,9 @@ class EventHandler extends Actor with ActorLogging{
       Events().replaceOne(Filters.eq("_id", BsonObjectId(req.id)), req.e).subscribe(new Observer[UpdateResult] {
         override def onError(e: Throwable): Unit = {
           println(e.getMessage()) // TODO Log
-          requester ! Failure
+          requester ! StatusCodes.BadRequest
         }
-        override def onComplete(): Unit = requester ! Success
+        override def onComplete(): Unit = requester ! StatusCodes.OK
         override def onNext(result: UpdateResult): Unit = {
         }
       })
@@ -79,9 +79,9 @@ class EventHandler extends Actor with ActorLogging{
       Events().deleteOne(Filters.eq("_id", BsonObjectId(e.id))).subscribe(new Observer[DeleteResult] {
         override def onError(e: Throwable): Unit = {
           println(e.getMessage()) //TODO Log
-          requester ! Failure
+          requester ! StatusCodes.BadRequest
         }
-        override def onComplete(): Unit = requester ! Success
+        override def onComplete(): Unit = requester ! StatusCodes.OK
         override def onNext(result: DeleteResult): Unit = {}
       })
     case request : SearchEvent => // Array[Event]
