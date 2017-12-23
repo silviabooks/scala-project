@@ -1,12 +1,11 @@
 package router
 
-import akka.actor.Status.Success
 import akka.http.scaladsl.model.{StatusCode, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.pattern.ask
 import controllers._
-import model.{User}
+import model.User
 import utils.{ActorInitializer, JsonMarshalling}
 
 object UsersRouter extends JsonMarshalling with ActorInitializer {
@@ -25,10 +24,8 @@ object UsersRouter extends JsonMarshalling with ActorInitializer {
         entity(as[User]) {
           user =>
             onSuccess(userHandler ? CreateUser(user)) {
-              case response: User =>
-                complete(StatusCodes.OK, response)
-              case _ =>
-                complete(StatusCodes.InternalServerError)
+              case rx: StatusCode => complete(rx)
+              case _ => complete(StatusCodes.InternalServerError)
             }
         }
       }
@@ -38,29 +35,31 @@ object UsersRouter extends JsonMarshalling with ActorInitializer {
         onSuccess(userHandler ? GetUser(userId)) {
           case response: User =>
             Console.println(s"Getting user with id #$userId...")
-            if(response.equals(null)) {
-              Console.println("User ID not found.")
-              complete(StatusCodes.NotFound)
-            } else {
-              complete(StatusCodes.OK, response)
-            }
+            complete(StatusCodes.OK, response)
+          case null =>
+            Console.println("User ID not found.")
+            complete(StatusCodes.NotFound)
           case _ =>
             complete(StatusCodes.InternalServerError)
         }
       } ~
       delete {
         onSuccess(userHandler ? DeleteUser(userId)) {
-          case response: DeleteUserResponse =>
-            Console.println(s"Deleting user with id #$userId...")
-            if(response == null) {
-              complete(StatusCodes.NotFound)
-            } else {
-              complete(StatusCodes.OK, "User deleted!")
-            }
-          case _ =>
-            complete(StatusCodes.InternalServerError)
+          case response: StatusCode => complete(response)
+          case _ => complete(StatusCodes.InternalServerError)
         }
+      } ~
+      put {
+        entity(as[User]) {
+          user =>
+            onSuccess(userHandler ? UpdateUser(user, userId)) {
+              case response: StatusCode => complete(response)
+              case _ => complete(StatusCodes.InternalServerError)
+            }
+        }
+
       }
+
     }
   }
 }

@@ -1,12 +1,14 @@
 package controllers
 
+import javafx.scene.web.WebEvent
+
 import akka.actor.{Actor, ActorLogging, Props}
-import org.mongodb.scala.result.DeleteResult
-//import akka.http.scaladsl.model.DateTime
+import akka.http.scaladsl.model.StatusCodes
+import org.mongodb.scala.bson.BsonObjectId
+import org.mongodb.scala.result.{DeleteResult, UpdateResult}
 import model.{User, Users}
 import org.mongodb.scala.{Completed, Observer}
 import org.mongodb.scala.model.Filters._
-
 
 
 object UserHandler{
@@ -17,13 +19,9 @@ object UserHandler{
 
 case class CreateUser(u: User)
 case class GetUsers()
-case class GetUser(id: Any) // use ObjectId if this doesn't work with the API
-case class DeleteUser(id: Any)
-case class UpdateUser(id: Any, u: User)
-//case class UsersResponse(users: Array[User])
-//case class SingleUserResponse(user: User)
-case class DeleteUserResponse(resp: Any)
-
+case class GetUser(id: String)
+case class DeleteUser(id: String)
+case class UpdateUser(u: User, id: String)
 
 class UserHandler extends Actor with ActorLogging {
 
@@ -32,8 +30,8 @@ class UserHandler extends Actor with ActorLogging {
     case req : CreateUser =>
       val sender = context.sender()
       Users().insertOne(req.u).subscribe(new Observer[Completed] {
-        override def onComplete(): Unit = sender ! req.u
-        override def onError(throwable: Throwable): Unit = ???
+        override def onComplete(): Unit = sender ! StatusCodes.OK
+        override def onError(throwable: Throwable): Unit = sender ! StatusCodes.BadRequest
         override def onNext(tResult: Completed): Unit = ???
       })
 
@@ -45,17 +43,23 @@ class UserHandler extends Actor with ActorLogging {
       })
 
     case req : GetUser =>
-      Users().find(equal("_id", req.id)).subscribe((user: User) => {
+      Users().find(equal("_id", BsonObjectId(req.id))).subscribe((user: User) => {
         Console.println(s"$user")
         sender ! user
       })
 
     case req : DeleteUser =>
-      Users().deleteOne(equal("_id", req.id)).subscribe(new Observer[DeleteResult] {
-        override def onComplete(): Unit = sender ! req.id
-        override def onError(throwable: Throwable): Unit = ???
+      Users().deleteOne(equal("_id", BsonObjectId(req.id))).subscribe(new Observer[DeleteResult] {
+        override def onComplete(): Unit = sender ! StatusCodes.OK
+        override def onError(throwable: Throwable): Unit = sender ! StatusCodes.BadRequest
         override def onNext(result: DeleteResult): Unit = ???
       })
 
+    case req : UpdateUser =>
+      Users().replaceOne(equal("_id", BsonObjectId(req.id)), req.u).subscribe(new Observer[UpdateResult] {
+        override def onComplete(): Unit = sender ! StatusCodes.OK
+        override def onError(throwable: Throwable): Unit = sender ! StatusCodes.BadRequest
+        override def onNext(result: UpdateResult): Unit = ???
+      })
   }
 }
