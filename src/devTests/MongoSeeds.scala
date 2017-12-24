@@ -6,15 +6,31 @@ import model._
 import scala.collection.mutable.ListBuffer
 import akka.http.scaladsl.model.DateTime
 import akka.pattern.ask
+import org.mongodb.scala.{Completed, Observer}
 import utils.ActorInitializer
+
+import scala.concurrent.Future
 
 object MongoSeed extends App with ActorInitializer {
   println("Dropping collections and seeding... ")
+  def generateObserver(messagePrefix : String) = new Observer[Completed] {
+    override def onError(e: Throwable): Unit = println(s"[${messagePrefix}] ${e.getMessage}")
+    override def onComplete(): Unit = println(s"[${messagePrefix}] Completed")
+    override def onNext(result: Completed): Unit = println(s"[${messagePrefix}] ${result.toString()}")
+  }
+
+  def generateOnSuccessFuture(messagePrefix: String, f : Future[Any]) : Future[Any] = {
+    f onSuccess {
+      case r : Any =>
+        println(s"[${messagePrefix}] ${r.toString}")
+    }
+    return f
+  }
 
   // Dropping collections
-  Tickets().drop()
-  Events().drop()
-  Users().drop()
+  Tickets().drop().subscribe(generateObserver("Dropping Tickets"))
+  Events().drop().subscribe(generateObserver("Dropping Events"))
+  Users().drop().subscribe(generateObserver("Dropping Users"))
 
   // Initialization of the actors
   val eventHandler   = system.actorOf(EventHandler.props(), "eventHandler")
@@ -34,22 +50,35 @@ object MongoSeed extends App with ActorInitializer {
   events += EventCreator("London Philharmonic Orchestra", DateTime(2018, 2, 20, 19, 0), "Classic", "Beethoven Syphony no. 7", 200, 20)
   events += EventCreator("Robert Plant", DateTime(2018, 7, 20, 22, 0), "Rock", "Kashmir", 200, 60.50)
 
-  users += UserCreator("Alessandro", "123456", "aleskandro@scala")
-  users += UserCreator("Silvia", "1235", "silvia@scala")
+  users += UserCreator("Alessandro", "123456", "aleskandro@scala", true)
+  users += UserCreator("Silvia", "1235", "silvia@scala", true)
+  users += UserCreator("Pippo", "1235", "pippo@scala", false)
+  users += UserCreator("Pluto", "1235", "pluto@scala", false)
 
+  var i = 0
   // Pushing objects to database
   events.foreach((e : Event) => {
-    eventHandler ? CreateEvent(e)
+    i += 1
+    generateOnSuccessFuture(s"Event#${i}", eventHandler ? CreateEvent(e))
   })
 
+  i = 0
+  var lastUserFuture : Future[Any] = null
+
   users.foreach((u : User) => {
-    userHandler ? CreateUser(u)
+    i += 1
+    lastUserFuture = generateOnSuccessFuture(s"User#${i}", userHandler ? CreateUser(u))
   })
 
   // Creates a ticket for each user, event and push to database
-  users.foreach((u : User) => {
-    events.foreach((e : Event) => {
-      ticketHandler ? CreateTicket(TicketCreator(u.name, u._id, e._id))
-    })
-  })
+  lastUserFuture onSuccess {
+    case _ =>
+      i = 0
+      users.foreach((u: User) => {
+        events.foreach((e: Event) => {
+          i += 1
+          generateOnSuccessFuture(s"Ticket#${i}", ticketHandler ? CreateTicket(TicketCreator(u.name, u._id, e._id)))
+        })
+      })
+  }
 }
