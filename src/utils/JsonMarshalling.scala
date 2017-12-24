@@ -37,7 +37,7 @@ trait JsonMarshalling extends SprayJsonSupport with DefaultJsonProtocol {
   }
   // implicit variables needed to the marshalling/unmarshalling of the case classes
   implicit val eventFormat  = jsonFormat7(Event)
-  implicit val userFormat   = jsonFormat4(User)
+  implicit val userFormat   = jsonFormat5(User)
   implicit val healthFormat = jsonFormat2(Health)
   implicit val ticketFormat = jsonFormat4(Ticket)
 
