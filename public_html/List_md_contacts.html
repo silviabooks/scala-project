@@ -1,0 +1,43 @@
+<div>
+<md-content class="md-padding scroll tab-content"> 
+<md-table-container>
+    <table md-table>
+        <md-input-container class="md-block" flex-gt-xs="" style="transform: scale(0.99)">
+            <input type="text" ng-model="item.q" placeholder="Search Contact">
+        </md-input-container>
+        <thead md-head md-order="filter" ng-show="customListCtrlContacts.items.length > 0">
+            <tr md-row>
+                <th md-column md-order-by="name"><span>Name</span></th>
+                <th md-column md-order-by="phone"><span>Phone</span></th>
+                <th md-column><span>Scheduling</span></th>
+            </tr>
+        </thead>
+        <tbody md-body>
+            <tr md-row 
+                ng-repeat="item in customListCtrlContacts.items | orderBy: filter | filter:item.q as results" 
+                ng-class="customListCtrlContacts.selectedItem.indexOf(item) != -1 ? 'selected': ''"  
+                ng-click="customListCtrlContacts.toggleSelection(item)" >
+                <span class="animate-repeat" ng-if="customListCtrlContacts.items.length == 0">
+                    <strong>No contacts founds.</strong>
+                </span>
+                <td md-cell>{{item.name}}</td>
+                <td md-cell>{{item.phone}}</td>
+                <td md-cell style="font-family:monospace; font-size:10px">
+
+                    <span ng-if="item.forever!='scheduled'"> {{item.forever | capitalize}}</span>
+                    <span ng-if="item.forever=='scheduled'">
+                        {{item.startDate | toLocaleDate}} - {{item.endDate | toLocaleDate}}
+                    </span>
+                    <br/>
+                    <span ng-show="item.forever=='scheduled'" ng-repeat="(name, time) in item.schedule" >
+                        <span ng-if="time.enabled">
+                            {{name | capitalize}} - {{time.startTime | toLocaleTime }} <--> {{time.endTime | toLocaleTime }}<br/>
+                        </span>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</md-table-container>
+</div>
+</md-content>
