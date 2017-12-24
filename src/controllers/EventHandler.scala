@@ -2,18 +2,15 @@ package controllers
 
 import java.util.regex.Pattern
 
-import akka.actor.Status.{Failure, Success}
 import akka.actor.{Actor, ActorLogging, Props}
-import akka.http.scaladsl.model.{DateTime, StatusCodes}
+import akka.http.scaladsl.model.StatusCodes
 import com.mongodb.client.model.Filters
 import model.{Event, Events}
-import org.bson.types.ObjectId
 import org.mongodb.scala.bson.BsonObjectId
 import org.mongodb.scala.result.{DeleteResult, UpdateResult}
 import org.mongodb.scala.{Completed, Observer}
 
 import scala.util.Try
-import scala.util.matching.Regex
 
 object EventHandler{
   def props(): Props = {
@@ -42,7 +39,7 @@ class EventHandler extends Actor with ActorLogging{
           println(throwable.getMessage()) // TODO Log
           requester ! StatusCodes.BadRequest
         }
-        override def onNext(tResult: Completed) = null
+        override def onNext(tResult: Completed) = {}
       })
     case _ : GetEvents => // Array[Event]
       val requester = context.sender()
@@ -112,7 +109,6 @@ class EventHandler extends Actor with ActorLogging{
         requester ! categories.distinct
       })
     case _ =>
-      sender() ! Failure
+      sender() ! StatusCodes.InternalServerError
   }
-
 }

@@ -1,7 +1,5 @@
 package model
 
-import java.util.Date
-
 import akka.http.scaladsl.model.DateTime
 import org.bson.types.ObjectId
 import org.mongodb.scala.MongoCollection
