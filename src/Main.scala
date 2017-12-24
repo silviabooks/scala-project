@@ -15,7 +15,8 @@ object Main extends App with ActorInitializer {
   val route : Route = {
     PingRouter()   ~
     EventsRouter() ~
-    UsersRouter()
+    UsersRouter()  ~
+    TicketsRouter()
   }
 
   val bindingFuture = Http().bindAndHandle(route, host, port)

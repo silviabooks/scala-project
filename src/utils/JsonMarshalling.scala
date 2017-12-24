@@ -3,7 +3,7 @@ package utils
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.DateTime
 import devTests.Health
-import model.{Event, User}
+import model.{Event, Ticket, User}
 import org.mongodb.scala.bson.ObjectId
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, RootJsonFormat}
 
@@ -39,5 +39,6 @@ trait JsonMarshalling extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val eventFormat  = jsonFormat7(Event)
   implicit val userFormat   = jsonFormat4(User)
   implicit val healthFormat = jsonFormat2(Health)
+  implicit val ticketFormat = jsonFormat4(Ticket)
 
 }
