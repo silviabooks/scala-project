@@ -1,0 +1,75 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <script>
+        const V = "";
+    </script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Entrance domotic management</title>
+
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="vendor/css/angular-material.min.css">
+    <link href="vendor/css/MaterialIcons.css" rel="stylesheet">
+    <link href="vendor/css/md-data-table.min.css" rel="stylesheet">
+    <!-- App Styles -->
+    <link rel="stylesheet" href="css/style.css?">
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="vendor/js/angular.min.js?"></script>
+    <script src="vendor/js/angular-animate.min.js?"></script>
+    <script src="vendor/js/angular-aria.min.js?"></script>
+    <script src="vendor/js/angular-messages.min.js?"></script>
+    <script src="vendor/js/md-data-table.min.js?"></script>
+
+    <!-- Angular Material Library -->
+    <!--<script src="vendor/js/angular-material.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+
+    <!-- Code Behind -->
+    <script src="js/script.js?"></script>
+    <script src="js/customList.directive.js?"></script>
+    <script src="js/storageService.js?"></script>
+
+</head>
+
+<body ng-app="todoApp" class="no-scroll">
+    <div ng-controller="TodoController as ctrl" class="no-scroll">
+        <div layout="column" class="no-scroll">
+            <md-toolbar class="md-whiteframe-3dp">
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Entrance domotic management</span>
+                    </h2>
+                    <span flex></span>
+                    <md-button ng-disabled="ctrl.selectedItem.length == 0" ng-click="ctrl.deleteItem()" class="md-icon-button" aria-label="Delete">
+                        <md-icon> delete </md-icon>
+                    </md-button>
+                    <md-button ng-click="ctrl.openDoor()" class="md-icon-button" aria-label="Open door">
+                        <md-icon> lock_open </md-icon>
+                    </md-button>
+
+                    <md-button ng-click="ctrl.logout()" class="md-icon-button" aria-label="Logout">
+                        <md-icon>exit_to_app</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-content class="no-scroll-x">
+                <md-tabs md-dynamic-height md-border-bottom class="no-scroll scroll-y" md-swipe-content="true">
+                    <md-tab label="contacts" md-on-select="ctrl.tabSelected('contacts')">
+                        <custom-list-contacts items="ctrl.items['contacts']" selected-item="ctrl.selectedItem"></custom-list-contacts>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
+            <md-button class="md-fab md-primary add-button" aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
+                <md-icon>add</md-icon>
+            </md-button>
+
+        </div>
+</body>
+
+</html>
