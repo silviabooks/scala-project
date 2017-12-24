@@ -86,7 +86,7 @@ class TicketHandler extends Actor with ActorLogging with ActorInitializer {
               println(throwable.getMessage()) // TODO Log
               requester ! StatusCodes.BadRequest
             }
-            override def onNext(tResult: Completed) = null
+            override def onNext(tResult: Completed) = {}
           })
         case _ =>
           requester ! StatusCodes.BadRequest
