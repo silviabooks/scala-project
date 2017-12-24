@@ -141,12 +141,13 @@
         }
 
         vm.helperAdd = function(ev) {
+            // attention to the templateUrl
             var confirm =  $mdDialog.prompt({
                     targetEvent: ev,
                     controller: 'TodoController',
                     controllerAs: 'vm',
                     clickOutsideToClose: true,
-                    templateUrl: '/admin/form_' + vm.tabSelected() + '.html?' + V
+                    templateUrl: '/form_' + vm.tabSelected() + '.html?' + V
             });
             $mdDialog.show(confirm).then(function(answer){
                 if(answer)
