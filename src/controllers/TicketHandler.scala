@@ -17,11 +17,35 @@ object TicketHandler{
   }
 }
 
+/**
+  * Case class to match POST requests to /tickets to create a [[model.Ticket]].
+  * @param t The [[model.Ticket]] to be created.
+  */
 case class CreateTicket(t: Ticket)
+
+/**
+  * Case class to match GET requests to /tickets
+  * @param u The user that performs the requests.
+  *
+  */
 case class GetTickets(u : User)
+
+/**
+  * Case class to match GET requests to /ticket/[[id]]
+  * @param id The [[model.Ticket]]'s [[org.mongodb.scala.bson.ObjectId]] (passed as a [[String]]) to be searched.
+  * @param u The [[model.User]] that performs the request.
+  */
 case class GetTicket(id : String, u : User)
+
+/**
+  * Case class to match DELETE requests to /ticket/[[id]]
+  * @param id The [[model.Ticket]]'s [[org.mongodb.scala.bson.ObjectId]] (passed as a [[String]]) to be deleted.
+  */
 case class DeleteTicket(id : String)
 
+/**
+  * The Controller Actor to handling /tickets requests
+  */
 class TicketHandler extends Actor with ActorLogging {
   import ActorInitializer._
   override def receive: Receive = {

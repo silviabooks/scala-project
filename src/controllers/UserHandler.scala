@@ -17,12 +17,39 @@ object UserHandler{
   }
 }
 
+/**
+  * Case class to match POST requests to /user and create a new [[model.User]]
+  * @param u The [[model.User]] to be created.
+  */
 case class CreateUser(u: User)
+
+/**
+  * Case class to match GET requests to /users and get the list.
+  */
 case class GetUsers()
+
+/**
+  * Case class to match GET requests to /users/[[id]]
+  * @param id The [[model.User._id]] as [[String]] to be searched.
+  */
 case class GetUser(id: String)
+
+/**
+  * Case class to match DELETE requests to /users/[[id]]
+  * @param id The [[model.User._id]] as [[String]] to be deleted.
+  */
 case class DeleteUser(id: String)
+
+/**
+  * Case class to match PUT requests to /users/[[id]]
+  * @param u The [[model.User]] that performs the request.
+  * @param id The [[model.User]]'s ObjectId to be searched.
+  */
 case class UpdateUser(u: User, id: String)
 
+/**
+  * The Controller Actor for handling /users requests
+  */
 class UserHandler extends Actor with ActorLogging {
 
   override def receive: Receive = {

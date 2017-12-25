@@ -10,6 +10,10 @@ object WSPublisher {
     Props(new WSPublisher())
 }
 
+/**
+  * This is an ActorPublisher to provide Publish-Subscribe for new Events. Its role is to fill a broadcast queue for the
+  * consumers/subscribers (all the clients connected) when a new [[model.Event]] is created.
+  */
 class WSPublisher extends ActorPublisher[Event] {
   import ActorInitializer._
  // https://stackoverflow.com/questions/35276254/akka-http-websockets-how-to-send-consumers-the-same-stream-of-data

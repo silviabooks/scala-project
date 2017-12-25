@@ -8,6 +8,9 @@ import controllers._
 import model.User
 import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
+/**
+  * Singleton object for users resources
+  */
 object UsersRouter extends JsonMarshalling {
 
   import ActorInitializer._

@@ -1,0 +1,315 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>model - BoxOffice documentation - DIEEI - Advanced Programming Languages - model</title>
+          <meta name="description" content="model - BoxOffice documentation - DIEEI - Advanced Programming Languages - model" />
+          <meta name="keywords" content="model BoxOffice documentation DIEEI Advanced Programming Languages model" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../lib/template.js"></script>
+      <script type="text/javascript" src="../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../index.html';
+            var hash = 'model.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../lib/package_big.png" />
+        
+        <h1>model</h1><span class="permalink">
+      <a href="../index.html#model.package" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">model</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Package for domain model classes and MongoDB Singletons drivers
+</p></div><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="model"><span>model</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="model.Event" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="EventextendsProductwithSerializable"></a>
+      <a id="Event:Event"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Event.html"><span class="name">Event</span></a><span class="params">(<span name="_id">_id: <span class="extype" name="org.bson.types.ObjectId">ObjectId</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="date">date: <span class="extype" name="akka.http.scaladsl.model.DateTime">DateTime</span></span>, <span name="category">category: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="quantity">quantity: <span class="extype" name="scala.Int">Int</span></span>, <span name="price">price: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@EventextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">_id</dt><dd class="cmt"><p>the ObjectId</p></dd><dt class="param">name</dt><dd class="cmt"><p>The Name of the <a href="Event.html" class="extype" name="model.Event">Event</a></p></dd><dt class="param">date</dt><dd class="cmt"><p>The DateTime for the <a href="Event.html" class="extype" name="model.Event">Event</a></p></dd><dt class="param">category</dt><dd class="cmt"><p>A category for the <a href="Event.html" class="extype" name="model.Event">Event</a></p></dd><dt class="param">description</dt><dd class="cmt"><p>A long description for the <a href="Event.html" class="extype" name="model.Event">Event</a></p></dd><dt class="param">quantity</dt><dd class="cmt"><p>The quantity of available tickets for the <a href="Event.html" class="extype" name="model.Event">Event</a></p></dd><dt class="param">price</dt><dd class="cmt"><p>The price for a <a href="Ticket.html" class="extype" name="model.Ticket">Ticket</a>
+</p></dd></dl></div>
+    </li><li name="model.Ticket" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="TicketextendsProductwithSerializable"></a>
+      <a id="Ticket:Ticket"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Ticket.html"><span class="name">Ticket</span></a><span class="params">(<span name="_id">_id: <span class="extype" name="org.bson.types.ObjectId">ObjectId</span></span>, <span name="ticketHolder">ticketHolder: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="boughtFrom">boughtFrom: <span class="extype" name="org.bson.types.ObjectId">ObjectId</span></span>, <span name="event">event: <span class="extype" name="org.bson.types.ObjectId">ObjectId</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@TicketextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">The class that represents a Ticket.</p><div class="fullcomment"><div class="comment cmt"><p>The class that represents a Ticket.
+This is also passed to the JsonFormat to provide (Un)Marshalling</p></div><dl class="paramcmts block"><dt class="param">_id</dt><dd class="cmt"></dd><dt class="param">ticketHolder</dt><dd class="cmt"></dd><dt class="param">boughtFrom</dt><dd class="cmt"></dd><dt class="param">event</dt><dd class="cmt"><p>
+</p></dd></dl></div>
+    </li><li name="model.User" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="UserextendsProductwithSerializable"></a>
+      <a id="User:User"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="User.html"><span class="name">User</span></a><span class="params">(<span name="_id">_id: <span class="extype" name="org.bson.types.ObjectId">ObjectId</span></span>, <span name="name">name: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="telNumber">telNumber: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="email">email: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="isAdmin">isAdmin: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@UserextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">This class represents the User data model</p><div class="fullcomment"><div class="comment cmt"><p>This class represents the User data model</p></div><dl class="paramcmts block"><dt class="param">_id</dt><dd class="cmt"><p>the ObjectId (Bson)</p></dd><dt class="param">name</dt><dd class="cmt"><p>the name of the User</p></dd><dt class="param">telNumber</dt><dd class="cmt"><p>the telephone of the User</p></dd><dt class="param">email</dt><dd class="cmt"><p>the mail (used as login credential)</p></dd><dt class="param">isAdmin</dt><dd class="cmt"><p>a field that gives the user administration rights
+</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="model.BoxOffice" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BoxOffice"></a>
+      <a id="BoxOffice:BoxOffice"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BoxOffice$.html"><span class="name">BoxOffice</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@BoxOffice" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Singleton class to be used privately in this package to get one only connection to the MongoDB
+This could be a good solution (mantain only one connection) because of weak consistency model needed
+We're using a NoSql Database
+</p>
+    </li><li name="model.EventCreator" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="EventCreator"></a>
+      <a id="EventCreator:EventCreator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="EventCreator$.html"><span class="name">EventCreator</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@EventCreator" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"><a href="EventCreator$.html" class="extype" name="model.EventCreator">EventCreator</a> is a Factory to create a new <a href="Event.html" class="extype" name="model.Event">Event</a>
+</p>
+    </li><li name="model.Events" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Events"></a>
+      <a id="Events:Events"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Events$.html"><span class="name">Events</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@Events" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Events is a singleton that returns the collection in the MongoDB db
+</p>
+    </li><li name="model.TicketCreator" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TicketCreator"></a>
+      <a id="TicketCreator:TicketCreator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="TicketCreator$.html"><span class="name">TicketCreator</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@TicketCreator" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Factory to Create a new Ticket
+</p>
+    </li><li name="model.Tickets" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Tickets"></a>
+      <a id="Tickets:Tickets"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Tickets$.html"><span class="name">Tickets</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@Tickets" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Ticket is a singleton that returns the collection in the MongoDB db
+</p>
+    </li><li name="model.UserCreator" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="UserCreator"></a>
+      <a id="UserCreator:UserCreator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="UserCreator$.html"><span class="name">UserCreator</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@UserCreator" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A factory to create a new User
+</p>
+    </li><li name="model.Users" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Users"></a>
+      <a id="Users:Users"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Users$.html"><span class="name">Users</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../index.html#model.package@Users" title="Permalink" target="_top">
+        <img src="../lib/permalink.png" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Singleton object that returns the users collection
+</p>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
