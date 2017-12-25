@@ -1,6 +1,8 @@
 (function() {
     'use strict';
 
+    // TODO add all the directives that we need
+
     angular
         .module('todoApp')
         .directive('customList', directive);
@@ -15,8 +17,12 @@
  
     angular
         .module('todoApp')
-        .directive('customListContacts', directiveContacts);      
-     
+        .directive('customListContacts', directiveContacts);
+
+    angular
+        .module('todoApp')
+        .directive('customListEvents', directiveEvents);
+
     function directive() {
         return {
             scope: {},
@@ -30,7 +36,7 @@
             controllerAs: 'customListCtrl',
             transclude: true,
             restrict: 'E',
-            templateUrl: '/admin/List_md.html?' + V
+            templateUrl: '/List_md.html?' + V
 
         };
     }
@@ -46,7 +52,7 @@
             controllerAs: 'customListCtrlOffers',
             transclude: true,
             restrict: 'E',
-            templateUrl: '/admin/List_md_offers.html?' + V
+            templateUrl: '/List_md_offers.html?' + V
         };
     }
 
@@ -61,7 +67,7 @@
             controllerAs: 'customListCtrlCoupons',
             transclude: true,
             restrict: 'E',
-            templateUrl: '/admin/List_md_coupons.html?' + V
+            templateUrl: '/List_md_coupons.html?' + V
 
         };
     }
@@ -77,12 +83,30 @@
             controllerAs: 'customListCtrlContacts',
             transclude: true,
             restrict: 'E',
-            templateUrl: '/admin/List_md_contacts.html?' + V
+            templateUrl: '/List_md_contacts.html?' + V
 
         };
-    }   
+    }
 
-    //Directive controller
+    function directiveEvents() {
+        return {
+            scope: {},
+            bindToController: {
+                items: '=',
+                selectedItem: '=',
+            },
+            controller: customListControllerEvents,
+            controllerAs: 'customListCtrlEvents',
+            transclude: true,
+            restrict: 'E',
+            templateUrl: '/List_md_events.html?' + V
+
+        };
+    }
+
+    // TODO add tickets and users
+
+    /* ********** Directive controllers ************* */
     function customListController(storageService) {
         var vm = this;
         //Select or deselect the given item
@@ -146,5 +170,20 @@
         
     }
 
+    function customListControllerEvents(storageService) {
+        var vm = this;
+        //Select or deselect the given item
+        vm.toggleSelection = function(item) {
+            item.type = 'events';
+            if (vm.selectedItem.indexOf(item) == -1)
+                vm.selectedItem.push(item);
+            else
+            {
+                var index = vm.selectedItem.indexOf(item);
+                vm.selectedItem.splice(index,1);
+            }
+    }
+
+    }
 
 })();

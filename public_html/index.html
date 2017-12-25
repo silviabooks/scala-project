@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Entrance domotic management</title>
+    <title>Scala Project</title>
 
     <!-- Angular Material style sheet -->
     <link rel="stylesheet" href="vendor/css/angular-material.min.css">
@@ -43,10 +42,11 @@
             <md-toolbar class="md-whiteframe-3dp">
                 <div class="md-toolbar-tools">
                     <h2>
-                        <span>Entrance domotic management</span>
+                        <span>BoxOffice - I tuoi biglietti a portata di click!</span>
                     </h2>
                     <span flex></span>
-                    <md-button ng-disabled="ctrl.selectedItem.length == 0" ng-click="ctrl.deleteItem()" class="md-icon-button" aria-label="Delete">
+                    <md-button ng-disabled="ctrl.selectedItem.length == 0" ng-click="ctrl.deleteItem()"
+                               class="md-icon-button" aria-label="Delete">
                         <md-icon> delete </md-icon>
                     </md-button>
                     <md-button ng-click="ctrl.openDoor()" class="md-icon-button" aria-label="Open door">
@@ -60,10 +60,18 @@
             </md-toolbar>
             <md-content class="no-scroll-x">
                 <md-tabs md-dynamic-height md-border-bottom class="no-scroll scroll-y" md-swipe-content="true">
-                    <md-tab label="contacts" md-on-select="ctrl.tabSelected('contacts')">
+                    <!-- TODO change with events -->
+                    <md-tab label="Eventi" md-on-select="ctrl.tabSelected('events')">
+                        <custom-list-events items="ctrl.items['events']" selected-item="ctrl.selectedItem"></custom-list-events>
+                    </md-tab>
+                    <!-- TODO add a button per event to purchase the ticket related to that event -->
+                    <!-- To add another tab (if needed):
+                    <md-tab label="ciao mbare" md-on-select="ctrl.tabSelected('contacts')">
                         <custom-list-contacts items="ctrl.items['contacts']" selected-item="ctrl.selectedItem"></custom-list-contacts>
                     </md-tab>
+                    -->
                 </md-tabs>
+
             </md-content>
             <md-button class="md-fab md-primary add-button" aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
                 <md-icon>add</md-icon>

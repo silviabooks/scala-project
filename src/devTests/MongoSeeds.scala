@@ -10,6 +10,7 @@ import org.mongodb.scala.{Completed, Observer}
 import utils.ActorInitializer
 
 import scala.concurrent.Future
+import scala.io.StdIn
 
 object MongoSeed extends App {
   import ActorInitializer._
@@ -82,6 +83,6 @@ object MongoSeed extends App {
         })
       })
   }
-
+  StdIn.readLine()
   system.terminate()
 }

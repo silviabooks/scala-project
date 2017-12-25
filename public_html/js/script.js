@@ -38,10 +38,9 @@
         vm.items = {};
         vm.createTabSelectedIndex = 0;
         vm.load = function() {
-            vm.get('contacts');
+            vm.get('events');
             vm.selectedItem = [];
         }
-
 
         vm.get = function(what) {
             storageService.getAll(what).then(function (response) {
@@ -71,6 +70,7 @@
                 });
             }
         }
+
         vm.openDoor = function(ev) {
             if (vm.selectedItem != null) {
                 var confirm = $mdDialog.confirm()
@@ -141,7 +141,7 @@
         }
 
         vm.helperAdd = function(ev) {
-            // attention to the templateUrl
+
             var confirm =  $mdDialog.prompt({
                     targetEvent: ev,
                     controller: 'TodoController',

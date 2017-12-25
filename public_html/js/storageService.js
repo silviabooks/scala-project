@@ -4,18 +4,22 @@
     angular
         .module('todoApp')
         .service('storageService', Service);
-        
-    const endpoint = "front-api.php";
-
+    // TODO change endpoint
+    const endpoint = "localhost:8080";
+    /*
+    * TODO change with the right URLs given by our APIs */
     function Service($window,$http,$filter) {
         this.add    = add;
         this.getAll = getAll;
         this.remove = remove;
         this.open   = open;
+
+
         function getAll(type) {
             return $http({
                 method: 'GET',
-                url: endpoint + '?' + type + '=1'
+                // TODO change url
+                url: endpoint + '/' + type
             }).then(function(response) {
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })
             });
@@ -27,9 +31,10 @@
                 headers : {
                     'Content-Type': 'application/json'
                 }
-            }
+            } // change to DELETE?
             return $http.post(endpoint, data, config);
         }
+
 
         function add(value) {
             var config = {
@@ -43,6 +48,7 @@
             return a;
         }
 
+        // TODO che è?
         function open() {
             return $http({
                 method: 'GET',

@@ -1,6 +1,5 @@
 <component name="libraryTable">
-  <library name="com.typesafe.akka:akka-http_2.11:10.0.3" type="repository">
-    <properties maven-id="com.typesafe.akka:akka-http_2.11:10.0.3" />
+  <library name="com.typesafe.akka:akka-http_2.11:10.0.3">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/typesafe/akka/akka-http_2.11/10.0.3/akka-http_2.11-10.0.3.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.11.8/scala-library-2.11.8.jar!/" />

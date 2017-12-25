@@ -1,6 +1,5 @@
 <component name="libraryTable">
-  <library name="org.mongodb.scala:mongo-scala-driver_2.11:2.2.0" type="repository">
-    <properties maven-id="org.mongodb.scala:mongo-scala-driver_2.11:2.2.0" />
+  <library name="org.mongodb.scala:mongo-scala-driver_2.11:2.2.0">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/mongodb/scala/mongo-scala-driver_2.11/2.2.0/mongo-scala-driver_2.11-2.2.0.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.11.12/scala-library-2.11.12.jar!/" />
