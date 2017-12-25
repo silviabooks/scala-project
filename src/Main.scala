@@ -2,8 +2,10 @@ package org.unict.ing.advlanguages.boxoffice
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.server.Route
 import router._
+
 import scala.io.StdIn
 import utils.{ActorInitializer, JsonMarshalling}
 
@@ -17,11 +19,13 @@ object Main extends App {
   val port = 8080
 
   val route : Route = {
-    PingRouter()    ~
-    EventsRouter()  ~
-    UsersRouter()   ~
-    TicketsRouter() ~
-    WSRouter()
+    respondWithHeaders(RawHeader("Access-Control-Allow-Origin", "*")) {
+      PingRouter() ~
+        EventsRouter() ~
+        UsersRouter() ~
+        TicketsRouter() ~
+        WSRouter()
+    }
   }
 
   val bindingFuture = Http().bindAndHandle(route, host, port)
