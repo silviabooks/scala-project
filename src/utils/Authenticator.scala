@@ -6,7 +6,8 @@ import org.mongodb.scala.model.Filters
 
 import scala.concurrent.Future
 
-object Authenticator extends ActorInitializer {
+object Authenticator  {
+ import ActorInitializer._
  def adminPassAuthenticator(credentials: Credentials) : Future[Option[User]] =
    credentials match {
      case Credentials.Provided(id) =>

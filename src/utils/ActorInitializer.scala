@@ -5,7 +5,7 @@ import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import scala.concurrent.duration._
 
-trait ActorInitializer {
+object ActorInitializer {
   implicit val system = ActorSystem("my-system")
   implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher

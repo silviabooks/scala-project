@@ -7,16 +7,18 @@ import router._
 import scala.io.StdIn
 import utils.{ActorInitializer, JsonMarshalling}
 
-object Main extends App with ActorInitializer {
+object Main extends App {
+  import ActorInitializer._
 
   val host = "localhost"
   val port = 8080
 
   val route : Route = {
-    PingRouter()   ~
-    EventsRouter() ~
-    UsersRouter()  ~
-    TicketsRouter()
+    PingRouter()    ~
+    EventsRouter()  ~
+    UsersRouter()   ~
+    TicketsRouter() ~
+    WSRouter()
   }
 
   val bindingFuture = Http().bindAndHandle(route, host, port)

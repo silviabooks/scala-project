@@ -22,7 +22,8 @@ case class GetTickets(u : User)
 case class GetTicket(id : String, u : User)
 case class DeleteTicket(id : String)
 
-class TicketHandler extends Actor with ActorLogging with ActorInitializer {
+class TicketHandler extends Actor with ActorLogging {
+  import ActorInitializer._
   override def receive: Receive = {
     case req : CreateTicket => // Success or Failure
       // In order to have the sender in the async scope of the observer

@@ -8,7 +8,9 @@ import controllers._
 import model.Ticket
 import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
-object TicketsRouter extends JsonMarshalling with ActorInitializer {
+object TicketsRouter extends JsonMarshalling {
+
+  import ActorInitializer._
   val ticketHandler = system.actorOf(TicketHandler.props(), "ticketHandler")
 
   def apply () : Route = {

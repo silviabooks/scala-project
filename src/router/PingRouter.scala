@@ -1,13 +1,15 @@
 package router
 
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.{DateTime, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.pattern.ask
 import devTests.{GetHealthRequest, HealthResponse, RequestHandler}
+import model.EventCreator
 import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
-object PingRouter extends JsonMarshalling with ActorInitializer {
+object PingRouter extends JsonMarshalling {
+  import ActorInitializer._
   val requestHandler = system.actorOf(RequestHandler.props(), "requestHandler")
   def apply () : Route = {
     path("ping") {

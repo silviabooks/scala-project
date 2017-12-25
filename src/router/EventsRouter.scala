@@ -8,7 +8,9 @@ import model.Event
 import controllers._
 import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
-object EventsRouter extends JsonMarshalling with ActorInitializer {
+object EventsRouter extends JsonMarshalling {
+
+  import ActorInitializer._
   val eventHandler = system.actorOf(EventHandler.props(), "eventHandler")
 
   def apply () : Route = {

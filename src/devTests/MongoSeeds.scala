@@ -11,7 +11,8 @@ import utils.ActorInitializer
 
 import scala.concurrent.Future
 
-object MongoSeed extends App with ActorInitializer {
+object MongoSeed extends App {
+  import ActorInitializer._
   println("Dropping collections and seeding... ")
   def generateObserver(messagePrefix : String) = new Observer[Completed] {
     override def onError(e: Throwable): Unit = println(s"[${messagePrefix}] ${e.getMessage}")

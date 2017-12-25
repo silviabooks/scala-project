@@ -26,7 +26,8 @@ case class DeleteEvent(id : String)
 case class SearchEvent(pattern : String)
 case class GetCategories()
 
-class EventHandler extends Actor with ActorLogging{
+class EventHandler extends Actor with ActorLogging {
+  import utils.ActorInitializer._
   var events : Array[Event] = Array()
   //var tempString: String = "Event created!"
   override def receive: Receive = {
@@ -34,7 +35,10 @@ class EventHandler extends Actor with ActorLogging{
       // In order to have the sender in the async scope of the observer
       val requester = context.sender()
       Events().insertOne(req.e).subscribe(new Observer[Completed] {
-        override def onComplete(): Unit = requester ! StatusCodes.OK
+        override def onComplete(): Unit = {
+          system.eventStream.publish(req.e)
+          requester ! StatusCodes.OK
+        }
         override def onError(throwable: Throwable) = {
           println(throwable.getMessage()) // TODO Log
           requester ! StatusCodes.BadRequest
