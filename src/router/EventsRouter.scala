@@ -8,6 +8,9 @@ import model.Event
 import controllers._
 import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
+/**
+  * Singleton to provide routes for events resource
+  */
 object EventsRouter extends JsonMarshalling {
 
   import ActorInitializer._

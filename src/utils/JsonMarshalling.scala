@@ -9,6 +9,10 @@ import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsVa
 
 import scala.util.Try
 
+/**
+  * This trait provide Json Marshalling/Unmarshalling for all the Domain Model Classes given in the [[model]] package
+  * ([[model.User]], [[model.Ticket]], [[model.Event]])
+  */
 trait JsonMarshalling extends SprayJsonSupport with DefaultJsonProtocol {
 
   // Conversion of DateTime in Json format, see:

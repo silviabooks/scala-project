@@ -7,6 +7,9 @@ import router._
 import scala.io.StdIn
 import utils.{ActorInitializer, JsonMarshalling}
 
+/**
+  * The main application to be ran
+  */
 object Main extends App {
   import ActorInitializer._
 

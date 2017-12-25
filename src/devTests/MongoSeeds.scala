@@ -12,6 +12,9 @@ import utils.ActorInitializer
 import scala.concurrent.Future
 import scala.io.StdIn
 
+/**
+  * This Object can be runned. It automatically populates the Database for development purposes and demo testing
+  */
 object MongoSeed extends App {
   import ActorInitializer._
   println("Dropping collections and seeding... ")

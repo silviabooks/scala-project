@@ -6,6 +6,11 @@ import org.mongodb.scala.model.Filters
 
 import scala.concurrent.Future
 
+/**
+  * Singleton to provide Basic HTTP authentication (No password given, it only
+  * checks for the existence of the given email in the [[model.Users]]
+  * collection.
+  */
 object Authenticator  {
  import ActorInitializer._
  def adminPassAuthenticator(credentials: Credentials) : Future[Option[User]] =

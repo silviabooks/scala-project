@@ -18,14 +18,51 @@ object EventHandler{
   }
 }
 
+/**
+  * Case class to match POST requests to /events and create new event
+  * @param e
+  */
 case class CreateEvent(e: Event)
+
+/**
+  * Case class to match GET requests to /events
+  *
+  */
 case class GetEvents()
+
+/**
+  * Case class to match GET requests to /events/[[id]]
+  * @param id
+  */
 case class GetEvent(id : String)
+
+/**
+  * Case class to match PUT requests to /events/[[id]] and edit event details
+  * @param id
+  * @param e
+  */
 case class PutEvent(id : String, e: Event)
+
+/**
+  * Case class to match GET requests to /events/[[id]]
+  * @param id
+  */
 case class DeleteEvent(id : String)
+
+/**
+  * Case class to match GET requests to /events/[[pattern]] and search for a matching event
+  * @param pattern the pattern to match
+  */
 case class SearchEvent(pattern : String)
+
+/**
+  * Case class to match GET requests to /events/categories to return all the categories for the events stored
+  */
 case class GetCategories()
 
+/**
+  * The Controller Actor to handling /events requests
+  */
 class EventHandler extends Actor with ActorLogging {
   import utils.ActorInitializer._
   var events : Array[Event] = Array()

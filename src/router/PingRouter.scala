@@ -8,6 +8,9 @@ import devTests.{GetHealthRequest, HealthResponse, RequestHandler}
 import model.EventCreator
 import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
+/**
+  * Just an handler for health-checking the application
+  */
 object PingRouter extends JsonMarshalling {
   import ActorInitializer._
   val requestHandler = system.actorOf(RequestHandler.props(), "requestHandler")

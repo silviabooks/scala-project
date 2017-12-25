@@ -10,7 +10,6 @@ import org.mongodb.scala.{Completed, MongoClient, MongoCollection, MongoDatabase
 import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
 import org.mongodb.scala.bson.codecs.Macros._
 
-// case class and companion object
 object UserProva {
   def apply(name: String, telNumber: String, email: String): UserProva =
     UserProva(new ObjectId(), name, telNumber, email)

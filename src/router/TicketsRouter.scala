@@ -8,6 +8,9 @@ import controllers._
 import model.Ticket
 import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
+/**
+  * Singleton object to provide routes for tickets resources
+  */
 object TicketsRouter extends JsonMarshalling {
 
   import ActorInitializer._
