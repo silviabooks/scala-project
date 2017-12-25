@@ -77,7 +77,7 @@ class EventHandler extends Actor with ActorLogging {
           requester ! StatusCodes.OK
         }
         override def onError(throwable: Throwable) = {
-          println(throwable.getMessage()) // TODO Log
+          log.error(throwable.getMessage())
           requester ! StatusCodes.BadRequest
         }
         override def onNext(tResult: Completed) = {}
@@ -105,7 +105,7 @@ class EventHandler extends Actor with ActorLogging {
       val requester = context.sender()
       Events().replaceOne(Filters.eq("_id", BsonObjectId(req.id)), req.e).subscribe(new Observer[UpdateResult] {
         override def onError(e: Throwable): Unit = {
-          println(e.getMessage()) // TODO Log
+          log.error(e.getMessage())
           requester ! StatusCodes.BadRequest
         }
         override def onComplete(): Unit = requester ! StatusCodes.OK
@@ -116,7 +116,7 @@ class EventHandler extends Actor with ActorLogging {
       val requester = context.sender()
       Events().deleteOne(Filters.eq("_id", BsonObjectId(e.id))).subscribe(new Observer[DeleteResult] {
         override def onError(e: Throwable): Unit = {
-          println(e.getMessage()) //TODO Log
+          log.error(e.getMessage())
           requester ! StatusCodes.BadRequest
         }
         override def onComplete(): Unit = requester ! StatusCodes.OK

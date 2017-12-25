@@ -47,10 +47,8 @@ object UsersRouter extends JsonMarshalling {
           if (user._id.toString == userId | user.isAdmin) {
             onSuccess(userHandler ? GetUser(userId)) {
               case response: User =>
-                Console.println(s"Getting user with id #$userId...")
                 complete(StatusCodes.OK, response)
               case null =>
-                Console.println("User ID not found.")
                 complete(StatusCodes.NotFound)
               case _ =>
                 complete(StatusCodes.InternalServerError)

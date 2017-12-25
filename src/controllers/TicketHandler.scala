@@ -52,8 +52,6 @@ class TicketHandler extends Actor with ActorLogging {
     case req : CreateTicket => // Success or Failure
       // In order to have the sender in the async scope of the observer
       val requester = context.sender()
-      // TODO verify if user and event exist
-      // TODO Decrement event's available tickets
       val userId = Try(BsonObjectId(req.t.boughtFrom))
       var userFuture : Future[Option[User]] = null
       userId match {
@@ -100,7 +98,7 @@ class TicketHandler extends Actor with ActorLogging {
             Event(e._id, e.name, e.date, e.category, e.description, e.quantity - 1, e.price))
             .subscribe(new Observer[UpdateResult] {
             override def onError(e: Throwable): Unit =
-              println(e.getMessage()) // TODO Log
+              log.error(e.getMessage())
             override def onComplete(): Unit = {}
             override def onNext(result: UpdateResult): Unit = {}
           })
@@ -108,7 +106,7 @@ class TicketHandler extends Actor with ActorLogging {
           Tickets().insertOne(req.t).subscribe(new Observer[Completed] {
             override def onComplete(): Unit = requester ! StatusCodes.OK
             override def onError(throwable: Throwable) = {
-              println(throwable.getMessage()) // TODO Log
+              log.error(throwable.getMessage())
               requester ! StatusCodes.BadRequest
             }
             override def onNext(tResult: Completed) = {}
@@ -148,7 +146,7 @@ class TicketHandler extends Actor with ActorLogging {
       val requester = context.sender()
       Tickets().deleteOne(Filters.eq("_id", BsonObjectId(t.id))).subscribe(new Observer[DeleteResult] {
         override def onError(e: Throwable): Unit = {
-          println(e.getMessage()) //TODO Log
+          log.error(e.getMessage())
           requester ! StatusCodes.BadRequest
         }
         override def onComplete(): Unit = requester ! StatusCodes.OK
