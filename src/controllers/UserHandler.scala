@@ -59,7 +59,7 @@ class UserHandler extends Actor with ActorLogging {
       Users().insertOne(req.u).subscribe(new Observer[Completed] {
         override def onComplete(): Unit = requester ! StatusCodes.OK
         override def onError(throwable: Throwable): Unit = {
-          println(throwable.getMessage) // TODO log
+          log.error(throwable.getMessage)
           sender ! StatusCodes.BadRequest
         }
         override def onNext(tResult: Completed): Unit = {}
@@ -68,7 +68,6 @@ class UserHandler extends Actor with ActorLogging {
     case _: GetUsers => // Array[Event]
       val requester = context.sender()
       Users().find().collect().subscribe((usersList: Seq[User]) => {
-        Console.println(s"$usersList")
         requester ! usersList.toArray
       })
 
