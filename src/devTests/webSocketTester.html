@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+    <title>WebSocketTest</title>
+</head>
+<body>
+    <h1>WebSocket Tester</h1>
+    <h4>The feed: </h4>
+    <div id="feed">
+        Waiting for messages...
+    </div>
+    
+    <script type="text/javascript">
+            var ws;
+            var feed = document.getElementById("feed");
+
+            function wss() {
+                ws = new WebSocket("ws://localhost:8080/ws");
+                if ("WebSocket" in window)
+                    console.log("WebSocket is supported by your Browser!");
+                else {
+                    console.log("WebSocket not supported");
+                    return;
+                }
+                // Let us open a web socket
+
+                ws.onopen = function() {
+                    // Web Socket is connected, send data using send()
+                    ws.send("Alive...");
+                    console.log("Message is sent...");
+                };
+
+                ws.onmessage = function (evt) {
+                    var received_msg = evt.data;
+                    feed.innerHTML += "<br>" + received_msg;
+                    console.log(received_msg);
+                    console.log("Message is received...");
+                };
+
+                ws.onclose = function() {
+                    // websocket is closed.
+                    console.log("Connection is closed..."); 
+                };
+
+                window.onbeforeunload = function(event) {
+                    socket.close();
+                };
+            }
+            window.onload = wss
+            setTimeout(function() { ws.send("Keep-alive"); console.log("Keep alive to keep connection up") }, 10000);
+            
+    </script>
+</body>
