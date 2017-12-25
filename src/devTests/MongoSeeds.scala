@@ -81,4 +81,6 @@ object MongoSeed extends App with ActorInitializer {
         })
       })
   }
+
+  system.terminate()
 }

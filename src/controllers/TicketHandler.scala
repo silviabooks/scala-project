@@ -18,8 +18,8 @@ object TicketHandler{
 }
 
 case class CreateTicket(t: Ticket)
-case class GetTickets()
-case class GetTicket(id : String)
+case class GetTickets(u : User)
+case class GetTicket(id : String, u : User)
 case class DeleteTicket(id : String)
 
 class TicketHandler extends Actor with ActorLogging with ActorInitializer {
@@ -86,23 +86,31 @@ class TicketHandler extends Actor with ActorLogging with ActorInitializer {
               println(throwable.getMessage()) // TODO Log
               requester ! StatusCodes.BadRequest
             }
-            override def onNext(tResult: Completed) = null
+            override def onNext(tResult: Completed) = {}
           })
         case _ =>
           requester ! StatusCodes.BadRequest
       }
 
-    case _ : GetTickets => // Array[Ticket]
+    case t : GetTickets => // Array[Ticket]
       val requester = context.sender()
-      Tickets().find().collect().subscribe((results: Seq[Ticket]) => {
-        requester ! results.toArray
+      val user = t.u
+      var find = Tickets().find()
+      if (!user.isAdmin)
+        find = Tickets().find(Filters.eq("boughtFrom", user._id))
+      find.collect().subscribe((results: Seq[Ticket]) => {
+         requester ! results.toArray
       })
     case t : GetTicket => // Array[Ticket]
       val requester = context.sender()
+      val user = t.u
       val id : Try[BsonObjectId] = Try(BsonObjectId(t.id))
       id match {
         case scala.util.Success(id) =>
-          Tickets().find(Filters.eq("_id", id)).collect().subscribe((results: Seq[Ticket]) => {
+         var filter = Filters.eq("_id", id)
+         if (!user.isAdmin)
+           filter = Filters.and(filter, Filters.eq("boughtFrom", user._id))
+          Tickets().find(filter).collect().subscribe((results: Seq[Ticket]) => {
             if (results.isEmpty) {
               requester ! StatusCodes.NotFound
             } else {

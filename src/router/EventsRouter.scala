@@ -2,11 +2,11 @@ package router
 
 import akka.http.scaladsl.model.{StatusCode, StatusCodes}
 import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.{Route}
+import akka.http.scaladsl.server.Route
 import akka.pattern.ask
 import model.Event
 import controllers._
-import utils.{ActorInitializer, JsonMarshalling}
+import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
 object EventsRouter extends JsonMarshalling with ActorInitializer {
   val eventHandler = system.actorOf(EventHandler.props(), "eventHandler")
@@ -14,22 +14,26 @@ object EventsRouter extends JsonMarshalling with ActorInitializer {
   def apply () : Route = {
     pathPrefix("events") {
       pathEnd {
-        get {
-          onSuccess(eventHandler ? GetEvents()) {
-            case r: Array[Event] =>
-              complete(r)
-            case r: StatusCode =>
-              complete(r)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
+          get {
+            onSuccess(eventHandler ? GetEvents()) {
+              case r: Array[Event] =>
+                complete(r)
+              case r: StatusCode =>
+                complete(r)
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
         } ~ post {
-          entity(as[Event]) {
-            event =>
-              onSuccess(eventHandler ? CreateEvent(event)) {
-                case r: StatusCode =>
-                  complete(r)
+          authenticateBasicAsync(realm = "Admin", Authenticator.adminPassAuthenticator) { user => // Only admin
+            if (user.isAdmin) {
+              entity(as[Event]) {
+                event =>
+                  onSuccess(eventHandler ? CreateEvent(event)) {
+                    case r: StatusCode =>
+                      complete(r)
+                  }
               }
+            } else complete(StatusCodes.Unauthorized)
           }
         }
       } ~ path("search" / Segment) { pattern =>
@@ -65,20 +69,28 @@ object EventsRouter extends JsonMarshalling with ActorInitializer {
               complete(StatusCodes.InternalServerError)
           }
         } ~ put {
-          entity(as[Event]) { event =>
-            onSuccess(eventHandler ? PutEvent(eventId, event)) {
-              case r: StatusCode =>
-                complete(r)
-              case _ =>
-                complete(StatusCodes.InternalServerError)
-            }
+          authenticateBasicAsync(realm = "Admin", Authenticator.adminPassAuthenticator) { user => // Admin
+            if (user.isAdmin) {
+              entity(as[Event]) { event =>
+                onSuccess(eventHandler ? PutEvent(eventId, event)) {
+                  case r: StatusCode =>
+                    complete(r)
+                  case _ =>
+                    complete(StatusCodes.InternalServerError)
+                }
+              }
+            } else complete(StatusCodes.Unauthorized)
           }
         } ~ delete {
-          onSuccess(eventHandler ? DeleteEvent(eventId)) {
-            case r: StatusCode =>
-              complete(r)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
+          authenticateBasicAsync(realm = "Admin", Authenticator.adminPassAuthenticator) { user => // Admin
+            if (user.isAdmin) {
+              onSuccess(eventHandler ? DeleteEvent(eventId)) {
+                case r: StatusCode =>
+                  complete(r)
+                case _ =>
+                  complete(StatusCodes.InternalServerError)
+              }
+            } else complete(StatusCodes.Unauthorized)
           }
         }
       }

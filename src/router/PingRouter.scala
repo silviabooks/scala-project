@@ -5,19 +5,19 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.pattern.ask
 import devTests.{GetHealthRequest, HealthResponse, RequestHandler}
-import utils.{ActorInitializer, JsonMarshalling}
+import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
 object PingRouter extends JsonMarshalling with ActorInitializer {
   val requestHandler = system.actorOf(RequestHandler.props(), "requestHandler")
   def apply () : Route = {
     path("ping") {
       get {
-        onSuccess(requestHandler ? GetHealthRequest) {
-          case response: HealthResponse =>
-            complete(StatusCodes.OK, response.health)
-          case _ =>
-            complete(StatusCodes.InternalServerError)
-        }
+          onSuccess(requestHandler ? GetHealthRequest) {
+            case response: HealthResponse =>
+              complete(StatusCodes.OK, response.health)
+            case _ =>
+              complete(StatusCodes.InternalServerError)
+          }
       }
     }
   }

@@ -6,48 +6,54 @@ import akka.http.scaladsl.server.Route
 import akka.pattern.ask
 import controllers._
 import model.Ticket
-import utils.{ActorInitializer, JsonMarshalling}
+import utils.{ActorInitializer, Authenticator, JsonMarshalling}
 
 object TicketsRouter extends JsonMarshalling with ActorInitializer {
   val ticketHandler = system.actorOf(TicketHandler.props(), "ticketHandler")
 
   def apply () : Route = {
     pathPrefix("tickets") {
-      pathEnd {
-        get {
-          onSuccess(ticketHandler ? GetTickets()) {
-            case r: Array[Ticket] =>
-              complete(r)
-            case r: StatusCode =>
-              complete(r)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
+      authenticateBasicAsync(realm = "Admin", Authenticator.adminPassAuthenticator) { user =>
+        pathEnd {
+          get {
+            onSuccess(ticketHandler ? GetTickets(user)) {
+              case r: Array[Ticket] =>
+                complete(r)
+              case r: StatusCode =>
+                complete(r)
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
+          } ~ post {
+            entity(as[Ticket]) {
+              ticket =>
+                if (user.isAdmin | user._id.toString == ticket._id.toString) {
+                  onSuccess(ticketHandler ? CreateTicket(ticket)) {
+                    case r: StatusCode =>
+                      complete(r)
+                  }
+                } else complete(StatusCodes.Unauthorized)
+            }
           }
-        } ~ post {
-          entity(as[Ticket]) {
-            event =>
-              onSuccess(ticketHandler ? CreateTicket(event)) {
+        } ~ path(Segment) { ticketId =>
+          get {
+            onSuccess(ticketHandler ? GetTicket(ticketId, user)) {
+              case r: Array[Ticket] =>
+                complete(r)
+              case r: StatusCode =>
+                complete(r)
+              case _ =>
+                complete(StatusCodes.InternalServerError)
+            }
+          } ~ delete {
+            if (user.isAdmin) {
+              onSuccess(ticketHandler ? DeleteTicket(ticketId)) {
                 case r: StatusCode =>
                   complete(r)
+                case _ =>
+                  complete(StatusCodes.InternalServerError)
               }
-          }
-        }
-      } ~ path(Segment) { ticketId =>
-        get {
-          onSuccess(ticketHandler ? GetTicket(ticketId)) {
-            case r: Array[Ticket] =>
-              complete(r)
-            case r: StatusCode =>
-              complete(r)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
-          }
-        } ~ delete {
-          onSuccess(ticketHandler ? DeleteTicket(ticketId)) {
-            case r: StatusCode =>
-              complete(r)
-            case _ =>
-              complete(StatusCodes.InternalServerError)
+            } else complete(StatusCodes.Unauthorized)
           }
         }
       }
