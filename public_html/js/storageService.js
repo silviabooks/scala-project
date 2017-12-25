@@ -5,7 +5,7 @@
         .module('todoApp')
         .service('storageService', Service);
     // TODO change endpoint
-    const endpoint = "localhost:8080";
+    const endpoint = "http://localhost:8080";
     /*
     * TODO change with the right URLs given by our APIs */
     function Service($window,$http,$filter) {
