@@ -31,6 +31,12 @@
         }
     });
 
+    angular.module('todoApp').filter('yesNo', function() {
+        return function(input) {
+            return input ? 'si' : 'no';
+        }
+    });
+
 
     function TodoController($scope, storageService, $mdDialog,$http,$filter) {
         var vm = this;
@@ -39,6 +45,8 @@
         vm.createTabSelectedIndex = 0;
         vm.load = function() {
             vm.get('events');
+            //vm.get('tickets');
+            //vm.get('users');
             vm.selectedItem = [];
         }
 

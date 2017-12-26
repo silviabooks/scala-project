@@ -4,7 +4,7 @@
     angular
         .module('todoApp')
         .service('storageService', Service);
-    // TODO change endpoint
+
     const endpoint = "http://localhost:8080";
     /*
     * TODO change with the right URLs given by our APIs */
@@ -14,11 +14,13 @@
         this.remove = remove;
         this.open   = open;
 
+        // TODO da cambiare con l'encoding base64 che non sono riuscita a 'ntappare
+        const auth = "silvia@scala";
 
         function getAll(type) {
             return $http({
                 method: 'GET',
-                // TODO change url
+                // headers: {"Authorization": "Basic " + auth},
                 url: endpoint + '/' + type
             }).then(function(response) {
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })
