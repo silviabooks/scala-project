@@ -24,5 +24,18 @@ services:
         - 27017:27017
       command: mongod --smallfiles # --quiet
 
+    advproject_scala:
+      container_name: advproject_scala
+      working_dir: /app
+      command: sbt ~reStart
+      build: scala
+      restart: always
+      volumes:
+        - ../:/app
+      ports:
+        - 8080:8080
+      links:
+        - advproject_mongodb:mongo
+
 volumes:
     advproject_db:

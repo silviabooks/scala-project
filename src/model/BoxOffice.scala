@@ -19,7 +19,7 @@ import org.mongodb.scala.bson.codecs.DEFAULT_CODEC_REGISTRY
 object BoxOffice {
   val codecRegistry = CodecRegistries.fromRegistries(CodecRegistries.fromCodecs(new DateTimeCodec()), CodecRegistries.fromProviders(classOf[Event], classOf[User], classOf[Ticket]), DEFAULT_CODEC_REGISTRY)
 
-  val mongoClient: MongoClient = MongoClient()
+  val mongoClient: MongoClient = MongoClient("mongodb://mongo")
   // Here we should use some "constant" or application property to call elsewhere if needed and to be not hardcoded
   val database: MongoDatabase = mongoClient.getDatabase("boxoffice").withCodecRegistry(codecRegistry)
 

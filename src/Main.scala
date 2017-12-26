@@ -15,7 +15,7 @@ import utils.{ActorInitializer, JsonMarshalling}
 object Main extends App {
   import ActorInitializer._
 
-  val host = "localhost"
+  val host = "0.0.0.0"
   val port = 8080
 
   val route : Route = {
@@ -27,14 +27,7 @@ object Main extends App {
         WSRouter()
     }
   }
-
   val bindingFuture = Http().bindAndHandle(route, host, port)
-
-  println("API on...")
-  StdIn.readLine()
-
-  bindingFuture
-    .flatMap(_.unbind())
-    .onComplete(_ => system.terminate())
+  println("BoxOffice service on...")
 
 }
