@@ -7,8 +7,9 @@
                 </md-input-container>
                 <thead md-head md-order="filter" ng-show="customListCtrlUsers.items.length > 0">
                 <tr md-row>
-                    <th md-column md-order-by="name"><span>Name</span></th>
-                    <th md-column><span>Tel number</span></th>
+                    <th md-column><span>ID</span></th>
+                    <th md-column md-order-by="name"><span>Nome</span></th>
+                    <th md-column><span># Telefono</span></th>
                     <th md-column><span>Email</span></th>
                     <th md-column><span>Admin?</span></th>
                 </tr>
@@ -21,6 +22,7 @@
                 <span class="animate-repeat" ng-if="customListCtrlUsers.items.length == 0">
                     <strong>Nessun risultato.</strong>
                 </span>
+                    <td md-cell>{{item._id}}</td>
                     <td md-cell>{{item.name}}</td>
                     <td md-cell>{{item.telNumber}}</td>
                     <td md-cell>{{item.email}}</td>
