@@ -23,6 +23,15 @@
         .module('todoApp')
         .directive('customListEvents', directiveEvents);
 
+    angular
+        .module('todoApp')
+        .directive('customListTickets', directiveTickets);
+
+    angular
+        .module('todoApp')
+        .directive('customListUsers', directiveUsers);
+
+
     function directive() {
         return {
             scope: {},
@@ -105,6 +114,37 @@
     }
 
     // TODO add tickets and users
+    function directiveTickets() {
+        return {
+            scope: {},
+            bindToController: {
+                items: '=',
+                selectedItem: '=',
+            },
+            controller: customListControllerTickets,
+            controllerAs: 'customListCtrlTickets',
+            transclude: true,
+            restrict: 'E',
+            templateUrl: '/List_md_tickets.html?' + V
+
+        };
+    }
+
+    function directiveUsers() {
+        return {
+            scope: {},
+            bindToController: {
+                items: '=',
+                selectedItem: '=',
+            },
+            controller: customListControllerUsers,
+            controllerAs: 'customListCtrlUsers',
+            transclude: true,
+            restrict: 'E',
+            templateUrl: '/List_md_users.html?' + V
+
+        };
+    }
 
     /* ********** Directive controllers ************* */
     function customListController(storageService) {
@@ -182,7 +222,40 @@
                 var index = vm.selectedItem.indexOf(item);
                 vm.selectedItem.splice(index,1);
             }
+        }
+
     }
+
+    
+    function customListControllerTickets(storageService) {
+        var vm = this;
+        //Select or deselect the given item
+        vm.toggleSelection = function(item) {
+            item.type = 'tickets';
+            if (vm.selectedItem.indexOf(item) == -1)
+                vm.selectedItem.push(item);
+            else
+            {
+                var index = vm.selectedItem.indexOf(item);
+                vm.selectedItem.splice(index,1);
+            }
+        }
+
+    }
+
+    function customListControllerUsers(storageService) {
+        var vm = this;
+        //Select or deselect the given item
+        vm.toggleSelection = function(item) {
+            item.type = 'users';
+            if (vm.selectedItem.indexOf(item) == -1)
+                vm.selectedItem.push(item);
+            else
+            {
+                var index = vm.selectedItem.indexOf(item);
+                vm.selectedItem.splice(index,1);
+            }
+        }
 
     }
 

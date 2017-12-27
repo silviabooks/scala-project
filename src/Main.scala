@@ -19,7 +19,9 @@ object Main extends App {
   val port = 8080
 
   val route : Route = {
-    respondWithHeaders(RawHeader("Access-Control-Allow-Origin", "*")) {
+    respondWithHeaders(RawHeader("Access-Control-Allow-Origin", "*"),
+      RawHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"),
+      RawHeader("Access-Control-Request-Headers", "Authorization")) {
       PingRouter() ~
         EventsRouter() ~
         UsersRouter() ~

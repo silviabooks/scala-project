@@ -28,6 +28,7 @@
     <!--<script src="vendor/js/angular-material.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-base64/2.0.5/angular-base64.js"></script>
 
     <!-- Code Behind -->
     <script src="js/script.js?"></script>
@@ -59,17 +60,21 @@
                 </div>
             </md-toolbar>
             <md-content class="no-scroll-x">
-                <md-tabs md-dynamic-height md-border-bottom class="no-scroll scroll-y" md-swipe-content="true">
-                    <!-- TODO change with events -->
-                    <md-tab label="Eventi" md-on-select="ctrl.tabSelected('events')">
+                <md-tabs md-dynamic-height md-border-bottom md-swipe-content="true">
+                    <md-tab label="Eventi" md-on-select="ctrl.tabSelected('events')" class="scroll-y">
                         <custom-list-events items="ctrl.items['events']" selected-item="ctrl.selectedItem"></custom-list-events>
                     </md-tab>
                     <!-- TODO add a button per event to purchase the ticket related to that event -->
-                    <!-- To add another tab (if needed):
-                    <md-tab label="ciao mbare" md-on-select="ctrl.tabSelected('contacts')">
-                        <custom-list-contacts items="ctrl.items['contacts']" selected-item="ctrl.selectedItem"></custom-list-contacts>
+
+                    <md-tab label="I miei biglietti" md-on-select="ctrl.tabSelected('tickets')" class="scroll-y">
+                        <!-- TODO filtrare i biglietti per utente -->
+                        <custom-list-tickets items="ctrl.items['tickets']" selected-item="ctrl.selectedItem"></custom-list-tickets>
                     </md-tab>
-                    -->
+                    <!-- TODO distinguere tra admin e non admin (la scheda users non ci sarà in quest'ultimo),
+                            quindi vedere come prendere l'utente loggato in quel momento e usare ng-show o robe del genere-->
+                    <md-tab label="Utenti" md-on-select="ctrl.tabSelected('users')" class="scroll-y">
+                        <custom-list-users items="ctrl.items['users']" selected-item="ctrl.selectedItem"></custom-list-users>
+                    </md-tab>
                 </md-tabs>
 
             </md-content>

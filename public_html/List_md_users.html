@@ -1,0 +1,33 @@
+<div>
+    <md-content class="md-padding scroll tab-content">
+        <md-table-container>
+            <table md-table>
+                <md-input-container class="md-block" flex-gt-xs="" style="transform: scale(0.99)">
+                    <input type="text" ng-model="item.q" placeholder="Cerca utente">
+                </md-input-container>
+                <thead md-head md-order="filter" ng-show="customListCtrlUsers.items.length > 0">
+                <tr md-row>
+                    <th md-column md-order-by="name"><span>Name</span></th>
+                    <th md-column><span>Tel number</span></th>
+                    <th md-column><span>Email</span></th>
+                    <th md-column><span>Admin?</span></th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row
+                    ng-repeat="item in customListCtrlUsers.items | orderBy: filter | filter:item.q as results"
+                    ng-class="customListCtrlUsers.selectedItem.indexOf(item) != -1 ? 'selected': ''"
+                    ng-click="customListCtrlUsers.toggleSelection(item)" >
+                <span class="animate-repeat" ng-if="customListCtrlUsers.items.length == 0">
+                    <strong>Nessun risultato.</strong>
+                </span>
+                    <td md-cell>{{item.name}}</td>
+                    <td md-cell>{{item.telNumber}}</td>
+                    <td md-cell>{{item.email}}</td>
+                    <td md-cell>{{item.isAdmin | yesNo}}<!-- TODO aggiungere roba per visualizzare SI/NO --></td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+</div>
+</md-content>
