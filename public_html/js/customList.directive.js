@@ -1,23 +1,9 @@
 (function() {
     'use strict';
 
-    // TODO add all the directives that we need
-
     angular
         .module('todoApp')
         .directive('customList', directive);
-
-    angular
-        .module('todoApp')
-        .directive('customListOffers', directiveOffers);
-
-    angular
-        .module('todoApp')
-        .directive('customListCoupons', directiveCoupons);
- 
-    angular
-        .module('todoApp')
-        .directive('customListContacts', directiveContacts);
 
     angular
         .module('todoApp')
@@ -50,53 +36,6 @@
         };
     }
 
-    function directiveOffers() {
-        return {
-            scope: {},
-            bindToController: {
-                items: '=',
-                selectedItem: '=',
-            },
-            controller: customListControllerOffers,
-            controllerAs: 'customListCtrlOffers',
-            transclude: true,
-            restrict: 'E',
-            templateUrl: '/List_md_offers.html?' + V
-        };
-    }
-
-    function directiveCoupons() {
-        return {
-            scope: {},
-            bindToController: {
-                items: '=',
-                selectedItem: '=',
-            },
-            controller: customListControllerCoupons,
-            controllerAs: 'customListCtrlCoupons',
-            transclude: true,
-            restrict: 'E',
-            templateUrl: '/List_md_coupons.html?' + V
-
-        };
-    }
-
-    function directiveContacts() {
-        return {
-            scope: {},
-            bindToController: {
-                items: '=',
-                selectedItem: '=',
-            },
-            controller: customListControllerContacts,
-            controllerAs: 'customListCtrlContacts',
-            transclude: true,
-            restrict: 'E',
-            templateUrl: '/List_md_contacts.html?' + V
-
-        };
-    }
-
     function directiveEvents() {
         return {
             scope: {},
@@ -108,12 +47,11 @@
             controllerAs: 'customListCtrlEvents',
             transclude: true,
             restrict: 'E',
-            templateUrl: '/List_md_events.html?' + V
+            templateUrl: '/List_md_events.html?'
 
         };
     }
 
-    // TODO add tickets and users
     function directiveTickets() {
         return {
             scope: {},
@@ -125,7 +63,7 @@
             controllerAs: 'customListCtrlTickets',
             transclude: true,
             restrict: 'E',
-            templateUrl: '/List_md_tickets.html?' + V
+            templateUrl: '/List_md_tickets.html?'
 
         };
     }
@@ -141,12 +79,11 @@
             controllerAs: 'customListCtrlUsers',
             transclude: true,
             restrict: 'E',
-            templateUrl: '/List_md_users.html?' + V
+            templateUrl: '/List_md_users.html?'
 
         };
     }
 
-    /* ********** Directive controllers ************* */
     function customListController(storageService) {
         var vm = this;
         //Select or deselect the given item
@@ -163,52 +100,6 @@
         
     }
 
-    function customListControllerOffers(storageService) {
-        var vm = this;
-        //Select or deselect the given item
-        vm.toggleSelection = function(item) {
-            item.type = 'offers';
-            if (vm.selectedItem.indexOf(item) == -1)
-                vm.selectedItem.push(item);
-            else
-            {
-                var index = vm.selectedItem.indexOf(item);
-                vm.selectedItem.splice(index, 1);
-            }
-        }
-    }
-
-    function customListControllerCoupons(storageService) {
-        var vm = this;
-        //Select or deselect the given item
-        vm.toggleSelection = function(item) {
-            item.type = 'offers';
-            if (vm.selectedItem.indexOf(item) == -1)
-                vm.selectedItem.push(item);
-            else
-            {
-                var index = vm.selectedItem.indexOf(item);
-                vm.selectedItem.splice(index,1);
-            }
-        }
-        
-    }
-
-    function customListControllerContacts(storageService) {
-        var vm = this;
-        //Select or deselect the given item
-        vm.toggleSelection = function(item) {
-            item.type = 'contacts';
-            if (vm.selectedItem.indexOf(item) == -1)
-                vm.selectedItem.push(item);
-            else
-            {
-                var index = vm.selectedItem.indexOf(item);
-                vm.selectedItem.splice(index,1);
-            }
-        }
-        
-    }
 
     function customListControllerEvents(storageService) {
         var vm = this;
@@ -229,8 +120,6 @@
     
     function customListControllerTickets(storageService) {
         var vm = this;
-        // TODO prendere l'evento qui?
-
         //Select or deselect the given item
         vm.toggleSelection = function(item) {
             item.type = 'tickets';

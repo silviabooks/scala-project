@@ -7,12 +7,10 @@
 
     const endpoint = "http://localhost:8080";
 
-
     function Service($window,$http,$filter) {
         this.add    = add;
         this.getAll = getAll;
         this.remove = remove;
-        //this.open   = open;
         this.get    = get;
 
         this.auth   = btoa("");
@@ -39,21 +37,6 @@
             return $http.delete(url, config);
         }
 
-
-        /*function add(value) {
-            var config = {
-                headers : {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + this.auth
-                }
-            }
-            console.log(value);
-            var url = endpoint + '/' + type;
-            var a = $http.post(url, value, config);
-            console.log(a);
-            return a;
-        }*/
-
         function get(type, id) {
            return $http({
                 method: 'GET',
@@ -65,7 +48,6 @@
         }
 
         function add(type, value) {
-
             var config = {
                 headers : {'Authorization': 'Basic ' + this.auth}
             };
@@ -89,8 +71,8 @@
                     a = $http.post(url, value['tickets'], config);
                     break;
             }
-            console.log(value[type]);
-            console.log(a);
+            //console.log(value[type]);
+            //console.log(a);
             return a;
         }
     }
