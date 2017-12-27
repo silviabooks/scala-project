@@ -82,7 +82,7 @@ class UserHandler extends Actor with ActorLogging {
       val id : Try[BsonObjectId] = Try(BsonObjectId(req.id))
       id match {
         case Success(id) =>
-          Users().find(equal("_id", BsonObjectId(req.id))).collect().subscribe((results: Seq[User]) => {
+          Users().find(Filters.eq("_id", BsonObjectId(req.id))).collect().subscribe((results: Seq[User]) => {
             if (results.isEmpty) {
               requester ! StatusCodes.NotFound
             } else {

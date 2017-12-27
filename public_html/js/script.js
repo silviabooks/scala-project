@@ -38,7 +38,7 @@
     });
 
 
-    function TodoController($scope, storageService, $mdDialog,$http,$filter) {
+    function TodoController($scope, storageService, $mdDialog,$http,$filter,$q) {
         var vm = this;
         vm.weekDays = [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ];
         vm.items = {};
@@ -51,6 +51,21 @@
         }
 
         vm.get = function(what) {
+            if (what === "tickets") {
+                storageService.getAll(what).then(function (response) {
+                    vm.items[what] = response;
+                    vm.items[what].forEach(function(t, i) {
+                        $q.all([
+                        storageService.get("users", t.boughtFrom),
+                        storageService.get("events", t.event)])
+                        .then(function(data) {
+                            vm.items[what][i].userDetails = data[0][0];
+                            vm.items[what][i].eventDetails = data[1][0];
+                        });
+                    });
+                    return;
+                });
+            }
             storageService.getAll(what).then(function (response) {
                 vm.items[what] = response;
             });
@@ -115,6 +130,7 @@
             if (typeof tab !== 'undefined') {
                 vm.selectedItem = [];
                 vm.tab = tab;
+                vm.get(tab);
             }
             return vm.tab;
         }

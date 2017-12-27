@@ -13,6 +13,7 @@
         this.getAll = getAll;
         this.remove = remove;
         this.open   = open;
+        this.get    = get;
 
         const auth = btoa("silvia@scala:anypass");
 
@@ -49,14 +50,15 @@
             return a;
         }
 
-        // TODO che è?
-        function open() {
-            return $http({
+        function get(type, id) {
+           return $http({
                 method: 'GET',
-                url: endpoint + '?open=1'
+                headers: {"Authorization": "Basic " + auth},
+                url: endpoint + '/' + type + '/' + id
             }).then(function(response) {
-                return { status: 'ok' };
+                return Object.keys(response.data).map(function(key) {return response.data[key]; })
             });
+           
         }
     }
 })();
