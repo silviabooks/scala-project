@@ -6,8 +6,8 @@
         .service('storageService', Service);
 
     const endpoint = "http://localhost:8080";
-    /*
-    * TODO change with the right URLs given by our APIs */
+
+
     function Service($window,$http,$filter) {
         this.add    = add;
         this.getAll = getAll;
@@ -29,19 +29,22 @@
 
         function remove(item) {
             var data = { type: item.type, id: item._id.$id, delete: 1 };
+            var url = endpoint + '/' + type + '/' + item._id.$id;
             var config = {
                 headers : {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + auth
                 }
-            } // change to DELETE?
-            return $http.post(endpoint, data, config);
+            };
+            return $http.delete(url, data, config);
         }
 
 
         function add(value) {
             var config = {
                 headers : {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + auth
                 }
             }
             console.log(value);
@@ -58,7 +61,6 @@
             }).then(function(response) {
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })
             });
-           
         }
     }
 })();
