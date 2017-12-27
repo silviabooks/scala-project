@@ -65,17 +65,31 @@
         }
 
         function add(type, value) {
-            //TODO type da switchare 
-            value.events.date = value.events.date.toISOString();
-            value.events._id = "temp";
-            console.log(value.events);
+
             var config = {
-                headers : {
-                    'Authorization': 'Basic ' + auth
-                }
+                headers : {'Authorization': 'Basic ' + this.auth}
             };
             var url = endpoint + '/' + type;
-            var a = $http.post(url, value.events, config);
+            var a = null;
+            value[type]._id = "temp";
+
+            switch (type) {
+                case 'events':
+                    value['events'].date = value['events'].date.toISOString();
+                    a = $http.post(url, value['events'], config);
+                    break;
+                case 'users':
+                    // this is to make sure that isAdmin isn't undefined
+                    if (value['users'].isAdmin !== true)
+                        value['users'].isAdmin = false;
+                    a = $http.post(url, value['users'], config);
+                    break;
+                case 'tickets':
+                    // TODO mettere altre robe se servono
+                    a = $http.post(url, value['tickets'], config);
+                    break;
+            }
+            console.log(value[type]);
             console.log(a);
             return a;
         }

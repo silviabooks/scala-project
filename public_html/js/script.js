@@ -45,6 +45,8 @@
         vm.createTabSelectedIndex = 0;
         vm.load = function() {
             vm.get('events');
+            vm.get('tickets');
+            vm.get('users');
             vm.selectedItem = [];
         }
 
@@ -97,7 +99,6 @@
 
         //Creates a new item with the given parameters
         vm.create = function (item, type) {
-            // TODO Qui qualcosa va storto
             var obj = { };
             obj[type] = item;
             storageService.add(type, obj).then(vm.load);
@@ -157,13 +158,11 @@
                     vm.create(answer.newItem, vm.tabSelected());
                 }
             });
-            //console.log(vm.tabSelected());
+            console.log(vm.tabSelected());
             return confirm;
         }
 
         $scope.answer = function(answer){
-            //if (typeof surplus !== 'undefined')
-            //    answer.newItem[surplus] = 1;
             $mdDialog.hide(answer);
         };
 
