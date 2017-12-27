@@ -18,16 +18,12 @@ object UsersRouter extends JsonMarshalling {
   def apply () : Route = {
     path("users") {
       get {
-        authenticateBasicAsync(realm = "Admin", Authenticator.adminPassAuthenticator) { user => // Only admin
-          if (user.isAdmin) {
-            onSuccess(userHandler ? GetUsers()) {
-              case response: Array[User] =>
-                complete(StatusCodes.OK, response)
-              case _ =>
-                complete(StatusCodes.InternalServerError)
-            }
-          } else {
-            complete(StatusCodes.Unauthorized)
+        authenticateBasicAsync(realm = "Admin", Authenticator.adminPassAuthenticator) { user =>
+          onSuccess(userHandler ? GetUsers(user)) {
+            case response: Array[User] =>
+              complete(StatusCodes.OK, response)
+            case _ =>
+              complete(StatusCodes.InternalServerError)
           }
         }
       } ~
