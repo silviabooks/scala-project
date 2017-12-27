@@ -28,15 +28,13 @@
         }
 
         function remove(item) {
-            var data = { type: item.type, id: item._id.$id, delete: 1 };
-            var url = endpoint + '/' + type + '/' + item._id.$id;
+            var url = endpoint + '/' + item.type + '/' + item._id;
             var config = {
                 headers : {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Basic ' + auth
                 }
             };
-            return $http.delete(url, data, config);
+            return $http.delete(url, config);
         }
 
 

@@ -111,7 +111,6 @@
                 $mdDialog.show(confirm).then(function(result) {
                     if (result) {
                         var promise = storageService.open().then(function() {
-                            console.log("asd");  
                             var message = $mdDialog.alert()
                                 .textContent('Opening...')
                                     .ariaLabel('Opening door').ok('Ok');
