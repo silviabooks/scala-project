@@ -46,8 +46,8 @@
         vm.createTabSelectedIndex = 0;
         vm.load = function() {
             vm.get('events');
-            vm.get('tickets');
-            vm.get('users');
+            //vm.get('tickets');
+            //vm.get('users');
             vm.selectedItem = [];
         }
 
@@ -92,29 +92,6 @@
                             var promise = storageService.remove(v);
                             if (vm.selectedItem.length > k)
                                 promise.then(vm.load);
-                        });
-                    }
-                });
-            }
-        }
-
-        vm.openDoor = function(ev) {
-            if (vm.selectedItem != null) {
-                var confirm = $mdDialog.confirm()
-
-                .textContent('Opening door. Are you sure?')
-                    .ariaLabel('Opening door')
-                    .targetEvent(ev)
-                    .ok('Yes')
-                    .cancel('No');
-
-                $mdDialog.show(confirm).then(function(result) {
-                    if (result) {
-                        var promise = storageService.open().then(function() {
-                            var message = $mdDialog.alert()
-                                .textContent('Opening...')
-                                    .ariaLabel('Opening door').ok('Ok');
-                            $mdDialog.show(message);
                         });
                     }
                 });
@@ -190,7 +167,7 @@
                 answer.newItem[surplus] = 1;
             $mdDialog.hide(answer);
         };
-
+        
         $scope.cancel = function(ev) {
              $mdDialog.cancel();
         };
@@ -208,11 +185,57 @@
 
             $mdDialog.show(confirm).then(function(result) {
                 if (result) {
-                    $http.get(out);
-                    window.location = baseurl;
+                    storageService.logged = false;
+                    storageService.admin  = false;
+                    storageService.auth   = undefined;
+                    console.log("Logout");
                 }
             });
 
+        };
+
+        vm.isAdmin = function() {
+            return storageService.admin;
+        };
+
+        vm.isLoggedIn = function() {
+            return storageService.logged;
+        };
+
+        vm.login = function(ev) {
+            var confirm =  $mdDialog.prompt({
+                    targetEvent: ev,
+                    controller: 'TodoController',
+                    controllerAs: 'vm',
+                    clickOutsideToClose: true,
+                    templateUrl: '/form_login.html'
+            });
+            var that = vm;
+            $mdDialog.show(confirm).then(function(answer){
+                storageService.auth = btoa(answer.user.email + ":" + answer.user.password);
+                var wrong = $mdDialog.alert({
+                    title: 'Errore',
+                    textContent: 'Credenziali errate',
+                    ok: 'Ok'
+                });
+                storageService.getAll("users").then(function(response) {
+                    if (response.length > 1) {
+                        console.log("Admin logged in");
+                        storageService.admin = true;
+                        // storageService.user?? needed
+                    } else { // Unique user
+                        console.log("user logged in");
+                        storageService.user  = response[0];
+                        storageService.admin = false;
+                    }
+                    storageService.logged = true;
+                }).catch(function() {
+                    console.log("Wrong credentials");
+                    $mdDialog.show(wrong)
+                    storageService.auth = undefined;
+                });
+            });
+            return confirm;
         }
 
         vm.load();

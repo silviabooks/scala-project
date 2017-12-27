@@ -50,11 +50,11 @@
                                class="md-icon-button" aria-label="Delete">
                         <md-icon> delete </md-icon>
                     </md-button>
-                    <md-button ng-click="ctrl.openDoor()" class="md-icon-button" aria-label="Open door">
+                    <md-button ng-click="ctrl.login()" ng-if="!ctrl.isLoggedIn()" class="md-icon-button" aria-label="Login">
                         <md-icon> lock_open </md-icon>
                     </md-button>
 
-                    <md-button ng-click="ctrl.logout()" class="md-icon-button" aria-label="Logout">
+                    <md-button ng-click="ctrl.logout()" ng-if="ctrl.isLoggedIn()" class="md-icon-button" aria-label="Logout">
                         <md-icon>exit_to_app</md-icon>
                     </md-button>
                 </div>
