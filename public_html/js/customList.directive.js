@@ -230,7 +230,7 @@
     function customListControllerTickets(storageService) {
         var vm = this;
         // TODO prendere l'evento qui?
-        console.log("cazzomerda");
+
         //Select or deselect the given item
         vm.toggleSelection = function(item) {
             item.type = 'tickets';
