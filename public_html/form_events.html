@@ -2,6 +2,7 @@
     <h3>Aggiungi Evento</h3>
     <!-- TODO change fields, fix ng-required -->
     <form name="myTask" ng-submit="myTask.$valid && answer(vm)" >
+        <md-content layout-gt-sm="row" md-theme="docs-light" class="nopadding">
         <md-input-container class="md-block" flex-gt-xs="">
             <input ng-model="vm.newItem.name"
                    ng-required="true" size="30"
@@ -12,6 +13,7 @@
                            ng-model="vm.newItem.date"></md-datepicker>
             <label for="date">Data dell'evento</label>
         </md-input-container>
+        </md-content>
         <md-input-container class="md-block" flex-gt-xs="">
             <input ng-model="vm.newItem.category"
                    ng-required="true" size="30"
@@ -32,9 +34,10 @@
                    ng-required="true" size="30"
                    placeholder="Prezzo biglietto">
         </md-input-container>
-
-        <md-button ng-click="myTask.$valid && answer(vm)"
+        <div layout-align="space-between center">
+            <md-button ng-click="myTask.$valid && answer(vm)"
                    class="md-raised md-primary" type="submit">Salva</md-button>
-        <md-button ng-click="cancel()" class="md-raised md-warn">annulla</md-button>
+            <md-button ng-click="cancel()" class="md-raised md-warn">annulla</md-button>
+        </div>
     </form>
 </md-dialog>

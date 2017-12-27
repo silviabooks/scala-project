@@ -38,7 +38,7 @@
     });
 
 
-    function TodoController($scope, storageService, $mdDialog,$http,$filter,$q) {
+    function TodoController($scope, storageService, $mdDialog, $http, $filter, $q) {
         var vm = this;
         vm.items = {};
         //vm.cazzo = {};
@@ -48,6 +48,8 @@
             vm.get('tickets');
             vm.get('users');
             vm.selectedItem = [];
+            storageService.auth = vm.getCookie("auth");
+            vm.doLogin();
         }
 
         vm.get = function(what) {
@@ -68,9 +70,6 @@
             }
             storageService.getAll(what).then(function (response) {
                 vm.items[what] = response;
-                //if (what === 'events') {
-                //    vm.cazzo = response;
-                //}
             });
         }
 
@@ -158,7 +157,6 @@
                     vm.create(answer.newItem, vm.tabSelected());
                 }
             });
-            console.log(vm.tabSelected());
             return confirm;
         }
 
@@ -183,6 +181,7 @@
                     storageService.logged = false;
                     storageService.admin  = false;
                     storageService.auth   = undefined;
+                    setCookie("auth", "", -1);
                     console.log("Logout");
                 }
             });
@@ -213,25 +212,57 @@
                     textContent: 'Credenziali errate',
                     ok: 'Ok'
                 });
-                storageService.getAll("users").then(function(response) {
-                    if (response.length > 1) {
-                        console.log("Admin logged in");
-                        storageService.admin = true;
-                        // storageService.user?? needed
-                    } else { // Unique user
-                        console.log("user logged in");
-                        storageService.user  = response[0];
-                        storageService.admin = false;
-                    }
-                    storageService.logged = true;
-                }).catch(function() {
-                    console.log("Wrong credentials");
-                    $mdDialog.show(wrong)
-                    storageService.auth = undefined;
-                });
+                that.doLogin(wrong);
             });
             return confirm;
-        }
+        };
+
+        vm.doLogin = function(wrong) {
+            storageService.getAll("users").then(function(response) {
+                if (response.length > 1) {
+                    console.log("Admin logged in");
+                    storageService.admin = true;
+                    // storageService.user?? needed
+                } else { // Unique user
+                    console.log("user logged in");
+                    storageService.user  = response[0];
+                    storageService.admin = false;
+                }
+                storageService.logged = true;
+                vm.setCookie("auth", storageService.auth, 15);
+            }).catch(function() {
+                console.log("Wrong credentials");
+                if (wrong !== undefined) {
+                    $mdDialog.show(wrong)
+                }
+                storageService.auth = undefined;
+                storageService.user = false;
+                storageService.admin= false;
+            });
+        };
+
+        vm.setCookie = function(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        };
+
+        vm.getCookie = function(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        };
 
         vm.load();
     }

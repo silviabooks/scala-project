@@ -18,8 +18,10 @@
                       placeholder="Inserisci prezzo"></textarea>
         </md-input-container>
 
-        <md-button ng-click="myTask.$valid && answer(vm)"
-                   class="md-raised md-primary" type="submit">Salva</md-button>
-        <md-button ng-click="cancel()" class="md-raised md-warn">Close</md-button>
+        <div layout-align="space-between center">
+            <md-button ng-click="myTask.$valid && answer(vm)"
+                       class="md-raised md-primary" type="submit">Salva</md-button>
+            <md-button ng-click="cancel()" class="md-raised md-warn">Close</md-button>
+        </div>
     </form>
 </md-dialog>

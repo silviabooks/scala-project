@@ -24,41 +24,55 @@ md-tab-content.md-no-scroll>div,
         color: red !important;
 }
 .error-field{
-	color: red;
-	font-size: 12px;
-	text-align: right;
+    color: red;
+    font-size: 12px;
+    text-align: right;
 }
 
 .selected
 {
-	background-color: #efefef;
+    background-color: #efefef;
 }
 
-/*
-*.create-dialog
+
+.create-dialog
 {
-	padding: 2vw;
-	width: 50vw;
-}*/
+    padding: 2vw;
+    width: 50vw;
+    overflow-x: hidden;
+}
+
+._md-datepicker-floating-label > md-datepicker .md-datepicker-button {
+    float: left;
+    margin-top: -2.5px;
+    margin-left: -25px;
+}
+
+form[name=myName] md-content.md-default-theme, md-content {
+    background-color: rgb(255,255,255);
+}
+.create-dialog form {
+    overflow-x: hidden;
+}
 /*
 .create-dialog form
 {
-	overflow: initial;
+    overflow: initial;
 }*/
 /*
 md-input-container .md-placeholder, md-input-container label:not(.md-no-float):not(.md-container-ignore)
 {
-	padding-left: 20px;
+    padding-left: 20px;
 }
 tr.md-row.ng-scope:focus {
     outline: none;
 }
 .tags{
-	background-color: #3f51b5;
-	color: #ffffff;
-	padding: 5px;
-	margin: 2px;
-	border-radius: 3px;
+    background-color: #3f51b5;
+    color: #ffffff;
+    padding: 5px;
+    margin: 2px;
+    border-radius: 3px;
 
 }
 */
@@ -71,12 +85,12 @@ tr.md-row.ng-scope:focus {
 
 .no-scroll-x
 {
-	overflow-x: hidden !important;
+    overflow-x: hidden !important;
 }
 /*
 md-tabs-content-wrapper
 {
-	overflow-x: hidden !important;
+    overflow-x: hidden !important;
 }
 */
 md-datepicker 
@@ -86,9 +100,17 @@ md-datepicker
 
 md-input-container
 {
-    padding: 2px 20px;
+    padding: 2px 15px;
 }
 
+.nopadding
+{
+    padding: 0;
+}
+.md-button 
+{
+    width: 33%;
+}
 @media(min-width: 1024px) 
 {
     .md-datepicker-input-container
@@ -104,10 +126,6 @@ md-dialog h3
     text-align: center;
 }
 
-.create-dialog button.md-button.md-raised
-{
-    margin: 10px 20px;
-}
 
 md-input-container md-switch
 {

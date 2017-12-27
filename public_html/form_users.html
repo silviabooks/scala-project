@@ -20,9 +20,10 @@
             <input type="checkbox" name="isAdmin" id="isAdmin" ng-model="vm.newItem.isAdmin">
             <label for="isAdmin">Admin?</label>
         </md-input-container>
-
-        <md-button ng-click="myTask.$valid && answer(vm)"
-                   class="md-raised md-primary" type="submit">Salva</md-button>
-        <md-button ng-click="cancel()" class="md-raised md-warn">annulla</md-button>
+        <div layout-align="space-between center">
+            <md-button ng-click="myTask.$valid && answer(vm)"
+                   class="md-raised md-primary" type="submit" flex-gt-xs="">Salva</md-button>
+            <md-button ng-click="cancel()" class="md-raised md-warn" flex-gt-xs="">annulla</md-button>
+        </div>
     </form>
 </md-dialog>
