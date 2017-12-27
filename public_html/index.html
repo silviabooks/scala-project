@@ -68,7 +68,11 @@
 
                     <md-tab label="I miei biglietti" md-on-select="ctrl.tabSelected('tickets')" class="scroll-y">
                         <!-- TODO filtrare i biglietti per utente -->
-                        <custom-list-tickets items="ctrl.items['tickets']" selected-item="ctrl.selectedItem"></custom-list-tickets>
+                        <custom-list-tickets items="ctrl.items['tickets']"
+                                             selected-item="ctrl.selectedItem"
+                                             cazzo="ctrl.cazzo">
+
+                        </custom-list-tickets>
                     </md-tab>
                     <!-- TODO distinguere tra admin e non admin (la scheda users non ci sarà in quest'ultimo),
                             quindi vedere come prendere l'utente loggato in quel momento e usare ng-show o robe del genere-->

@@ -6,13 +6,14 @@
         .service('storageService', Service);
 
     const endpoint = "http://localhost:8080";
-    /*
-    * TODO change with the right URLs given by our APIs */
+
+
     function Service($window,$http,$filter) {
         this.add    = add;
         this.getAll = getAll;
         this.remove = remove;
         this.open   = open;
+        this.getOne = getOne;
 
         const auth = btoa("silvia@scala:anypass");
 
@@ -26,21 +27,35 @@
             });
         }
 
+        function getOne(type, id) {
+            return $http({
+                method: 'GET',
+                headers: {"Authorization": "Basic " + auth},
+                url: endpoint + '/' + type + '/' + id
+            }).then(function(response) {
+                return Object.keys(response.data).map(function(key) {return response.data[key]; })
+            });
+        }
+
+
         function remove(item) {
             var data = { type: item.type, id: item._id.$id, delete: 1 };
+            var url = endpoint + '/' + type + '/' + item._id.$id;
             var config = {
                 headers : {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + auth
                 }
-            } // change to DELETE?
-            return $http.post(endpoint, data, config);
+            };
+            return $http.delete(url, data, config);
         }
 
 
         function add(value) {
             var config = {
                 headers : {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + auth
                 }
             }
             console.log(value);
