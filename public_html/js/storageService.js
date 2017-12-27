@@ -14,13 +14,12 @@
         this.remove = remove;
         this.open   = open;
 
-        // TODO da cambiare con l'encoding base64 che non sono riuscita a 'ntappare
-        const auth = "silvia@scala";
+        const auth = btoa("silvia@scala:anypass");
 
         function getAll(type) {
             return $http({
                 method: 'GET',
-                // headers: {"Authorization": "Basic " + auth},
+                headers: {"Authorization": "Basic " + auth},
                 url: endpoint + '/' + type
             }).then(function(response) {
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })

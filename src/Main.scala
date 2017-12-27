@@ -6,6 +6,7 @@ import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.server.Route
 import router._
 
+import akka.http.scaladsl.model.{StatusCode, StatusCodes}
 import scala.io.StdIn
 import utils.{ActorInitializer, JsonMarshalling}
 
@@ -21,12 +22,15 @@ object Main extends App {
   val route : Route = {
     respondWithHeaders(RawHeader("Access-Control-Allow-Origin", "*"),
       RawHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"),
-      RawHeader("Access-Control-Request-Headers", "Authorization")) {
-      PingRouter() ~
-        EventsRouter() ~
-        UsersRouter() ~
-        TicketsRouter() ~
-        WSRouter()
+      RawHeader("Access-Control-Allow-Headers", "authorization")) {
+      options {
+        complete(StatusCodes.OK)
+      } ~
+      PingRouter()   ~
+      EventsRouter() ~
+      UsersRouter()  ~
+      TicketsRouter()~
+      WSRouter()
     }
   }
   val bindingFuture = Http().bindAndHandle(route, host, port)
