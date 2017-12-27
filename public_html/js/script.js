@@ -40,14 +40,11 @@
 
     function TodoController($scope, storageService, $mdDialog,$http,$filter,$q) {
         var vm = this;
-        //vm.weekDays = [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ];
         vm.items = {};
         vm.cazzo = {};
         vm.createTabSelectedIndex = 0;
         vm.load = function() {
             vm.get('events');
-            //vm.get('tickets');
-            //vm.get('users');
             vm.selectedItem = [];
         }
 
@@ -167,15 +164,12 @@
                 answer.newItem[surplus] = 1;
             $mdDialog.hide(answer);
         };
-        
+
         $scope.cancel = function(ev) {
              $mdDialog.cancel();
         };
 
         vm.logout = function(ev) {
-            var out = window.location.href.replace(/:\/\//, '://log:out@');
-            var baseurl = window.location.origin;
-
             var confirm = $mdDialog.confirm()
             .textContent('Logout. Are you sure?')
                 .ariaLabel('Logout')

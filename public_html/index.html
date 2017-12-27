@@ -66,23 +66,20 @@
                     </md-tab>
                     <!-- TODO add a button per event to purchase the ticket related to that event -->
 
-                    <md-tab label="I miei biglietti" md-on-select="ctrl.tabSelected('tickets')" class="scroll-y">
-                        <!-- TODO filtrare i biglietti per utente -->
+                    <md-tab ng-if="ctrl.isLoggedIn()" label="I miei biglietti" md-on-select="ctrl.tabSelected('tickets')" class="scroll-y">
                         <custom-list-tickets items="ctrl.items['tickets']"
                                              selected-item="ctrl.selectedItem"
                                              cazzo="ctrl.cazzo">
 
                         </custom-list-tickets>
                     </md-tab>
-                    <!-- TODO distinguere tra admin e non admin (la scheda users non ci sarà in quest'ultimo),
-                            quindi vedere come prendere l'utente loggato in quel momento e usare ng-show o robe del genere-->
-                    <md-tab label="Utenti" md-on-select="ctrl.tabSelected('users')" class="scroll-y">
+                    <md-tab ng-if="ctrl.isLoggedIn()" label="Utenti" md-on-select="ctrl.tabSelected('users')" class="scroll-y">
                         <custom-list-users items="ctrl.items['users']" selected-item="ctrl.selectedItem"></custom-list-users>
                     </md-tab>
                 </md-tabs>
 
             </md-content>
-            <md-button class="md-fab md-primary add-button" aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
+            <md-button class="md-fab md-primary add-button" ng-if="ctrl.isAdmin()" aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
                 <md-icon>add</md-icon>
             </md-button>
 
