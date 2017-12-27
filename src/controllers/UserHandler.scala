@@ -8,6 +8,7 @@ import org.mongodb.scala.result.{DeleteResult, UpdateResult}
 import model.{User, Users}
 import org.mongodb.scala.{Completed, Observer}
 import org.mongodb.scala.model.Filters._
+import org.mongodb.scala.model.Filters
 import scala.util.{Try, Success, Failure}
 
 
@@ -25,8 +26,9 @@ case class CreateUser(u: User)
 
 /**
   * Case class to match GET requests to /users and get the list.
+  * @param user The [[model.User]] currently logged in
   */
-case class GetUsers()
+case class GetUsers(u : User)
 
 /**
   * Case class to match GET requests to /users/[[id]]
@@ -65,9 +67,13 @@ class UserHandler extends Actor with ActorLogging {
         override def onNext(tResult: Completed): Unit = {}
       })
 
-    case _: GetUsers => // Array[Event]
+    case r : GetUsers => // Array[Event]
+      val user = r.u
+      var find = Users().find(Filters.eq("_id", user._id))
+      if (user.isAdmin)
+        find = Users().find()
       val requester = context.sender()
-      Users().find().collect().subscribe((usersList: Seq[User]) => {
+      find.collect().subscribe((usersList: Seq[User]) => {
         requester ! usersList.toArray
       })
 
