@@ -13,7 +13,7 @@
         this.getAll = getAll;
         this.remove = remove;
         this.open   = open;
-        this.getOne = getOne;
+        this.get    = get;
 
         const auth = btoa("silvia@scala:anypass");
 
@@ -26,17 +26,6 @@
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })
             });
         }
-
-        function getOne(type, id) {
-            return $http({
-                method: 'GET',
-                headers: {"Authorization": "Basic " + auth},
-                url: endpoint + '/' + type + '/' + id
-            }).then(function(response) {
-                return Object.keys(response.data).map(function(key) {return response.data[key]; })
-            });
-        }
-
 
         function remove(item) {
             var data = { type: item.type, id: item._id.$id, delete: 1 };
@@ -64,13 +53,13 @@
             return a;
         }
 
-        // TODO che è?
-        function open() {
-            return $http({
+        function get(type, id) {
+           return $http({
                 method: 'GET',
-                url: endpoint + '?open=1'
+                headers: {"Authorization": "Basic " + auth},
+                url: endpoint + '/' + type + '/' + id
             }).then(function(response) {
-                return { status: 'ok' };
+                return Object.keys(response.data).map(function(key) {return response.data[key]; })
             });
         }
     }

@@ -42,7 +42,7 @@ object UsersRouter extends JsonMarshalling {
         get {
           if (user._id.toString == userId | user.isAdmin) {
             onSuccess(userHandler ? GetUser(userId)) {
-              case response: User =>
+              case response: Array[User] =>
                 complete(StatusCodes.OK, response)
               case null =>
                 complete(StatusCodes.NotFound)
