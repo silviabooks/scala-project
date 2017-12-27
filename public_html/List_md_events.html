@@ -1,6 +1,4 @@
 <div>
-    <!-- TODO Non capisco come fanno ad arrivare i dati dal db fino a qui
-        Questo customListCtrlEvents (L'ho fatto uguale a customListCtrlContacts) che fa? -->
     <md-content class="md-padding scroll tab-content">
         <md-table-container>
             <table md-table>
@@ -10,7 +8,7 @@
                 <thead md-head md-order="filter" ng-show="customListCtrlEvents.items.length > 0">
                 <tr md-row>
                     <th md-column md-order-by="name"><span>Name</span></th>
-                    <th md-column md-order-by="phone"><span>Description</span></th>
+                    <th md-column md-order-by="description"><span>Description</span></th>
                 </tr>
                 </thead>
                 <tbody md-body>
