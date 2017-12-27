@@ -15,12 +15,14 @@
         //this.open   = open;
         this.get    = get;
 
-        const auth = btoa("silvia@scala:anypass");
+        this.auth   = btoa("");
+        this.logged = false;
+        this.admin  = false;
 
         function getAll(type) {
             return $http({
                 method: 'GET',
-                headers: {"Authorization": "Basic " + auth},
+                headers: {"Authorization": "Basic " + this.auth},
                 url: endpoint + '/' + type
             }).then(function(response) {
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })
@@ -28,15 +30,13 @@
         }
 
         function remove(item) {
-            var data = { type: item.type, id: item._id.$id, delete: 1 };
-            var url = endpoint + '/' + type + '/' + item._id.$id;
+            var url = endpoint + '/' + item.type + '/' + item._id;
             var config = {
                 headers : {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + auth
+                    'Authorization': 'Basic ' + this.auth
                 }
             };
-            return $http.delete(url, data, config);
+            return $http.delete(url, config);
         }
 
 
@@ -44,7 +44,7 @@
             var config = {
                 headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + auth
+                    'Authorization': 'Basic ' + this.auth
                 }
             }
             console.log(value);
@@ -57,7 +57,7 @@
         function get(type, id) {
            return $http({
                 method: 'GET',
-                headers: {"Authorization": "Basic " + auth},
+                headers: {"Authorization": "Basic " + this.auth},
                 url: endpoint + '/' + type + '/' + id
             }).then(function(response) {
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })
