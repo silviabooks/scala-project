@@ -12,7 +12,7 @@
         this.add    = add;
         this.getAll = getAll;
         this.remove = remove;
-        this.open   = open;
+        //this.open   = open;
         this.get    = get;
 
         const auth = btoa("silvia@scala:anypass");
@@ -40,7 +40,7 @@
         }
 
 
-        function add(value) {
+        /*function add(value) {
             var config = {
                 headers : {
                     'Content-Type': 'application/json',
@@ -48,10 +48,11 @@
                 }
             }
             console.log(value);
-            var a = $http.post(endpoint, value, config);
+            var url = endpoint + '/' + type;
+            var a = $http.post(url, value, config);
             console.log(a);
             return a;
-        }
+        }*/
 
         function get(type, id) {
            return $http({
@@ -61,6 +62,22 @@
             }).then(function(response) {
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })
             });
+        }
+
+        function add(type, value) {
+            //TODO type da switchare 
+            value.events.date = value.events.date.toISOString();
+            value.events._id = "temp";
+            console.log(value.events);
+            var config = {
+                headers : {
+                    'Authorization': 'Basic ' + auth
+                }
+            };
+            var url = endpoint + '/' + type;
+            var a = $http.post(url, value.events, config);
+            console.log(a);
+            return a;
         }
     }
 })();

@@ -3,27 +3,37 @@
     <!-- TODO change fields, fix ng-required -->
     <form name="myTask" ng-submit="myTask.$valid && answer(vm)" >
         <md-input-container class="md-block" flex-gt-xs="">
-            <input ng-model="vm.newItem.name"  ng-required="true" size="30" placeholder="Nome" md-autofocus>
+            <input ng-model="vm.newItem.name"
+                   ng-required="true" size="30"
+                   placeholder="Nome dell'evento">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-xs="">
-            <!-- TODO change to datepicker -->
-            <md-datepicker ng-model="vm.newItem.date"></md-datepicker>
+            <md-datepicker id="date" ng-required="true" ng-model="vm.newItem.date"></md-datepicker>
+            <label for="date">Data dell'evento</label>
         </md-input-container>
         <md-input-container class="md-block" flex-gt-xs="">
-            <input ng-model="vm.newItem.category"  ng-required="true" size="30" placeholder="Categoria" md-autofocus>
+            <input ng-model="vm.newItem.category"
+                   ng-required="true" size="30"
+                   placeholder="Categoria">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-xs="">
-            <input ng-model="vm.newItem.description"  ng-required="true" size="30" placeholder="Descrizione" md-autofocus>
+            <input ng-model="vm.newItem.description"
+                   ng-required="true" size="30"
+                   placeholder="Descrizione">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-xs="">
-            <input ng-model="vm.newItem.quantity"  ng-required="true" size="30" placeholder="Numero biglietti disponibili" md-autofocus>
+            <input type="number" ng-model="vm.newItem.quantity"
+                   ng-required="true" size="30"
+                   placeholder="# biglietti disponibili">
         </md-input-container>
-        <md-input-container class="md-block" >
-            <textarea ng-model="vm.newItem.price" size="30" md-maxlenght="150" md-select-on-focus  placeholder="Prezzo biglietto"></textarea>
+        <md-input-container class="md-block" flex-gt-xs="">
+            <input type="number" ng-model="vm.newItem.price"
+                   ng-required="true" size="30"
+                   placeholder="Prezzo biglietto">
         </md-input-container>
 
-
-        <md-button ng-click="myTask.$valid && answer(vm, 'offer')" class="md-raised md-primary" type="submit">Salva</md-button>
-        <md-button ng-click="cancel()" class="md-raised md-warn">Close</md-button>
+        <md-button ng-click="myTask.$valid && answer(vm)"
+                   class="md-raised md-primary" type="submit">Salva</md-button>
+        <md-button ng-click="cancel()" class="md-raised md-warn">annulla</md-button>
     </form>
 </md-dialog>

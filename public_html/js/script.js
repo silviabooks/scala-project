@@ -42,7 +42,7 @@
         var vm = this;
         //vm.weekDays = [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ];
         vm.items = {};
-        vm.cazzo = {};
+        //vm.cazzo = {};
         vm.createTabSelectedIndex = 0;
         vm.load = function() {
             vm.get('events');
@@ -69,9 +69,9 @@
             }
             storageService.getAll(what).then(function (response) {
                 vm.items[what] = response;
-                if (what === 'events') {
-                    vm.cazzo = response;
-                }
+                //if (what === 'events') {
+                //    vm.cazzo = response;
+                //}
             });
         }
 
@@ -98,7 +98,7 @@
             }
         }
 
-        vm.openDoor = function(ev) {
+        /*vm.openDoor = function(ev) {
             if (vm.selectedItem != null) {
                 var confirm = $mdDialog.confirm()
 
@@ -120,13 +120,14 @@
                     }
                 });
             }
-        }
+        }*/
 
         //Creates a new item with the given parameters
         vm.create = function (item, type) {
+            // TODO Qui qualcosa va storto
             var obj = { };
             obj[type] = item;
-            storageService.add(obj).then(vm.load);
+            storageService.add(type, obj).then(vm.load);
         }
 
         // View
@@ -175,7 +176,7 @@
                     controller: 'TodoController',
                     controllerAs: 'vm',
                     clickOutsideToClose: true,
-                    templateUrl: '/form_' + vm.tabSelected() + '.html?' + V
+                    templateUrl: '/form_' + vm.tabSelected() + '.html?'
             });
             $mdDialog.show(confirm).then(function(answer){
                 if(answer)
@@ -183,12 +184,13 @@
                     vm.create(answer.newItem, vm.tabSelected());
                 }
             });
+            //console.log(vm.tabSelected());
             return confirm;
         }
 
-        $scope.answer = function(answer, surplus){
-            if (typeof surplus !== 'undefined')
-                answer.newItem[surplus] = 1;
+        $scope.answer = function(answer){
+            //if (typeof surplus !== 'undefined')
+            //    answer.newItem[surplus] = 1;
             $mdDialog.hide(answer);
         };
 

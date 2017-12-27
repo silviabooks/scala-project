@@ -22,7 +22,7 @@ object Main extends App {
   val route : Route = {
     respondWithHeaders(RawHeader("Access-Control-Allow-Origin", "*"),
       RawHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"),
-      RawHeader("Access-Control-Allow-Headers", "authorization")) {
+      RawHeader("Access-Control-Allow-Headers", "authorization, content-type")) {
       options {
         complete(StatusCodes.OK)
       } ~
