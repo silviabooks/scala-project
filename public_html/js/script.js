@@ -43,6 +43,8 @@
         vm.items = {};
         //vm.cazzo = {};
         vm.createTabSelectedIndex = 0;
+        vm.ws = undefined;
+        vm.websocketMessages = [];
         vm.load = function() {
             vm.get('events');
             vm.get('tickets');
@@ -264,6 +266,48 @@
             return "";
         };
 
+
+        vm.wss = function () {
+            vm.ws = new WebSocket("ws://" + storageService.endpoint.replace(/http:\/\//, '') + "/ws");
+
+            if ("WebSocket" in window)
+                console.log("WebSocket is supported by your Browser!");
+            else {
+                console.log("WebSocket not supported");
+                return;
+            }
+            // Let us open a web socket
+
+            vm.ws.onopen = function() {
+                // Web Socket is connected, send data using send()
+                vm.ws.send("Alive...");
+                console.log("Message is sent...");
+                setTimeout(vm.keepAlive, 10000);
+            };
+
+            vm.ws.onmessage = function (evt) {
+                var received_msg = JSON.parse(evt.data);
+                vm.websocketMessages.push(received_msg);
+                console.log("Message is received...");
+            };
+
+            vm.ws.onclose = function() {
+                // websocket is closed.
+                console.log("Connection is closed..."); 
+            };
+
+            window.onbeforeunload = function(event) {
+                vm.ws.close();
+            };
+        }
+
+        vm.keepAlive = function () {
+            vm.ws.send("Keep-alive");
+            console.log("Keep alive to keep webSocket up");
+            setTimeout(vm.keepAlive, 10000);
+        };
+
         vm.load();
+        window.onload = vm.wss;
     }
 })(window.angular);

@@ -8,6 +8,7 @@
     const endpoint = "http://localhost:8080";
 
     function Service($window,$http,$filter) {
+        this.endpoint = endpoint;
         this.add    = add;
         this.getAll = getAll;
         this.remove = remove;

@@ -60,6 +60,13 @@
                 </div>
             </md-toolbar>
             <md-content class="no-scroll-x">
+                <h4>Notifications</h4>
+                <md-list>
+                    <md-list-item ng-repeat="event in ctrl.websocketMessages">
+                        <p>{{event.name}} | {{event.description}} </p>
+                    </md-list-item>
+                </md-list>
+                <md-divider></md-divider>
                 <md-tabs md-dynamic-height md-border-bottom md-swipe-content="true">
                     <md-tab label="Eventi" md-on-select="ctrl.tabSelected('events')" class="scroll-y">
                         <custom-list-events items="ctrl.items['events']" selected-item="ctrl.selectedItem"></custom-list-events>
