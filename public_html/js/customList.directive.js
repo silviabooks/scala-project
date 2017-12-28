@@ -119,15 +119,13 @@
         vm.buyTicket = function(ev, eventId) {
             console.log("asd");
             var confirm = $mdDialog.prompt()
-                .textContent('Inserisci l\'intestatario del biglietto?')
+                .textContent("Inserisci l'intestatario del biglietto:")
                 .placeholder('ticket holder')
                 .ariaLabel('Buy')
                 .targetEvent(ev)
                 .ok('Compra')
                 .cancel('Annulla');
 
-            var userId = null;
-            var userName = null;
 
             $mdDialog.show(confirm).then(function(answer) {
                 if (answer) {

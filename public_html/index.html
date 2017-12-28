@@ -60,7 +60,7 @@
                 </div>
             </md-toolbar>
             <md-content class="no-scroll-x">
-                <h4>Notifications</h4>
+                <h5 class="notifications">NOTIFICATIONS</h5>
                 <md-list>
                     <md-list-item ng-repeat="event in ctrl.websocketMessages">
                         <p>{{event.name}} | {{event.description}} </p>
@@ -85,7 +85,8 @@
                 </md-tabs>
 
             </md-content>
-            <md-button class="md-fab md-primary add-button" ng-if="ctrl.isAdmin() && ctrl.tab != 'tickets'" aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
+            <md-button class="md-fab md-primary add-button" ng-if="ctrl.isAdmin() && ctrl.tab != 'tickets'"
+                       aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
                 <md-icon>add</md-icon>
             </md-button>
 

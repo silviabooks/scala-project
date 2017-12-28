@@ -8,6 +8,7 @@
                 <thead md-head md-order="filter" ng-show="customListCtrlEvents.items.length > 0">
                 <tr md-row>
                     <th md-column md-order-by="name"><span>Nome evento</span></th>
+                    <th md-column md-order-by="category"><span>Categoria</span></th>
                     <th md-column md-order-by="description"><span>Descrizione</span></th>
                     <th md-column><span>Data</span></th>
                     <th md-column><span>Prezzo</span></th>
@@ -23,6 +24,7 @@
                     <td md-cell
                         ng-class="customListCtrlEvents.selectedItem.indexOf(item) != -1 ? 'selected': ''"
                         ng-click="customListCtrlEvents.toggleSelection(item)">{{item.name}}</td>
+                    <td md-cell>{{item.category}}</td>
                     <td md-cell>{{item.description}}</td>
                     <td md-cell>{{item.date | date:'medium'}}</td>
                     <td md-cell>{{item.price | currency:"€ "}}</td>
