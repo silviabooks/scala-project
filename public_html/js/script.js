@@ -220,16 +220,15 @@
         };
 
         vm.doLogin = function(wrong) {
-            storageService.getAll("users").then(function(response) {
+            storageService.getAll("me").then(function(response) {
                 if (response.length > 1) {
                     console.log("Admin logged in");
                     storageService.admin = true;
-                    // storageService.user?? needed
                 } else { // Unique user
                     console.log("user logged in");
-                    storageService.user  = response[0];
                     storageService.admin = false;
                 }
+                storageService.user  = response;
                 storageService.logged = true;
                 vm.setCookie("auth", storageService.auth, 15);
             }).catch(function() {

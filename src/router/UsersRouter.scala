@@ -37,6 +37,13 @@ object UsersRouter extends JsonMarshalling {
         }
       }
     } ~
+    path("me") {
+      get {
+        authenticateBasicAsync(realm = "Admin", Authenticator.adminPassAuthenticator) { user =>
+          complete(StatusCodes.OK, user)
+        }
+      }
+    } ~
     path("users" / Segment) { userId =>
       authenticateBasicAsync(realm = "Admin", Authenticator.adminPassAuthenticator) { user => // Only admin
         get {
