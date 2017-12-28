@@ -5,7 +5,7 @@
         .module('todoApp')
         .service('storageService', Service);
 
-    const endpoint = "http://localhost:8080";
+    const endpoint = "http://aleskandro.lucylaika.ovh:8080";
 
     function Service($window,$http,$filter) {
         this.endpoint = endpoint;
