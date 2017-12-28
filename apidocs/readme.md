@@ -7,4 +7,4 @@
 
 ### Healthcheck
 
-`GET /ping` provide an health check for the application running.
+`GET /ping` provides an health check for the application running.
