@@ -15,6 +15,7 @@ services:
     advproject_mongodb:
       image: mongo:latest
       container_name: "advproject_mongodb"
+      restart: always
       environment:
         - MONGO_DATA_DIR=/data/db
         - MONGO_LOG_DIR=/dev/null
