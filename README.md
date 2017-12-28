@@ -78,6 +78,8 @@ Demo users:
 - pippo@scala
 - pluto@scala
 
+*Usare una **password** a caso*
+
 Di seguito si riporta una sintesi delle API Rest disponibili.
 
 | URL                    |  GET  |  POST  |  PUT  | DELETE |
