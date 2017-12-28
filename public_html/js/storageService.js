@@ -55,7 +55,7 @@
             var url = endpoint + '/' + type;
             var a = null;
             value[type]._id = "temp";
-
+            //var currentUser = atob(this.auth);
             switch (type) {
                 case 'events':
                     value['events'].date = value['events'].date.toISOString();
@@ -68,12 +68,13 @@
                     a = $http.post(url, value['users'], config);
                     break;
                 case 'tickets':
-                    // TODO mettere altre robe se servono
+                    console.log(value['tickets']);
                     a = $http.post(url, value['tickets'], config);
                     break;
             }
             //console.log(value[type]);
             //console.log(a);
+            console.log(currentUser);
             return a;
         }
     }
