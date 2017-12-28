@@ -117,39 +117,39 @@
         }
 
         vm.buyTicket = function(ev, eventId) {
-
-            var confirm = $mdDialog.confirm()
-                .textContent('Vuoi acquistare un biglietto per questo evento?')
+            console.log("asd");
+            var confirm = $mdDialog.prompt()
+                .textContent('Inserisci l\'intestatario del biglietto?')
+                .placeholder('ticket holder')
                 .ariaLabel('Buy')
                 .targetEvent(ev)
-                .ok('Si')
-                .cancel('No');
+                .ok('Compra')
+                .cancel('Annulla');
 
             var userId = null;
             var userName = null;
 
             $mdDialog.show(confirm).then(function(answer) {
                 if (answer) {
-                    storageService.getAll("me").then(function(response) {
-                        userName = response.name;
-                        userId = response._id;
-                        console.log(userId + ' ' + userName);
+                    storageService.me().then(function(response) {
+                        var user  = response;
+                        var myTicket = {
+                            tickets: {
+                                event:        eventId,
+                                ticketHolder: answer,
+                                boughtFrom:   user._id
+                            }
+                        };
+                        console.log(myTicket);
+                        storageService.add('tickets', myTicket);
+                    }).catch(function() {
+                        console.log("error");
                     });
-
-                    var ciao = {};
-                    ciao['tickets'].event = eventId;
-                    ciao['tickets'].ticketHolder = userName;
-                    ciao['tickets'].boughtFrom = userId;
-                    storageService.add('tickets', ciao);
-
                 }
             });
         }
-
-
     }
 
-    
     function customListControllerTickets(storageService) {
         var vm = this;
         //Select or deselect the given item

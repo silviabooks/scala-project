@@ -245,11 +245,11 @@
         };
 
         vm.doLogin = function(wrong) {
-            storageService.getAll("me").then(function(response) {
-                if (response.length > 1) {
+            storageService.me().then(function(response) {
+                if (response.isAdmin) {
                     console.log("Admin logged in");
                     storageService.admin = true;
-                } else { // Unique user
+                } else { // user
                     console.log("user logged in");
                     storageService.admin = false;
                 }
