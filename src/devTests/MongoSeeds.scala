@@ -24,10 +24,12 @@ object MongoSeed extends App {
     override def onNext(result: Completed): Unit = println(s"[${messagePrefix}] ${result.toString()}")
   }
 
-  def generateOnSuccessFuture(messagePrefix: String, f : Future[Any]) : Future[Any] = {
+  def generateOnSuccessFuture(messagePrefix: String, f : Future[Any], end : Boolean) : Future[Any] = {
     f onSuccess {
       case r : Any =>
         println(s"[${messagePrefix}] ${r.toString}")
+        if (end)
+          system.terminate()
     }
     return f
   }
@@ -62,30 +64,32 @@ object MongoSeed extends App {
 
   var i = 0
   // Pushing objects to database
+  var lastFuture : Future[Any] = null
   events.foreach((e : Event) => {
     i += 1
-    generateOnSuccessFuture(s"Event#${i}", eventHandler ? CreateEvent(e))
+    lastFuture = generateOnSuccessFuture(s"Event#${i}", eventHandler ? CreateEvent(e), false)
   })
 
   i = 0
-  var lastUserFuture : Future[Any] = null
 
   users.foreach((u : User) => {
     i += 1
-    lastUserFuture = generateOnSuccessFuture(s"User#${i}", userHandler ? CreateUser(u))
+    lastFuture = generateOnSuccessFuture(s"User#${i}", userHandler ? CreateUser(u), false)
   })
 
   // Creates a ticket for each user, event and push to database
-  lastUserFuture onSuccess {
+  lastFuture onSuccess {
     case _ =>
       i = 0
+      val max = users.length * events.length
       users.foreach((u: User) => {
         events.foreach((e: Event) => {
+          var end = false;
           i += 1
-          generateOnSuccessFuture(s"Ticket#${i}", ticketHandler ? CreateTicket(TicketCreator(u.name, u._id, e._id)))
+          if (i == max - 1)
+            end = true
+          generateOnSuccessFuture(s"Ticket#${i}", ticketHandler ? CreateTicket(TicketCreator(u.name, u._id, e._id)), end)
         })
       })
   }
-  StdIn.readLine()
-  system.terminate()
 }
