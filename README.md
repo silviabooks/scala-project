@@ -46,7 +46,7 @@ Dopo aver eseguito il deploy con Docker eseguire:
 
 ```bash
  $ cd docker/
- $ docker exec -it $(docker-compose ps -q advproject_scala) ./seeds.sh
+ $ docker exec -it $(docker-compose ps -q advproject_scala) sbt "runMain devTests.MongoSeed"
 ```
 
 Come sopra, fare attenzione ai permessi e a SELinux.
