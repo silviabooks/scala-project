@@ -85,7 +85,7 @@
                 </md-tabs>
 
             </md-content>
-            <md-button class="md-fab md-primary add-button" ng-if="ctrl.isAdmin()" aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
+            <md-button class="md-fab md-primary add-button" ng-if="ctrl.isAdmin() && ctrl.tab != 'tickets'" aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
                 <md-icon>add</md-icon>
             </md-button>
 
