@@ -80,10 +80,10 @@
             if (vm.selectedItem != null) {
                 var confirm = $mdDialog.confirm()
 
-                .textContent(vm.selectedItem.length + ' element(s) will be deleted. Are you sure?')
+                .textContent(vm.selectedItem.length + ' elementi verranno cancellati. Sei sicuro?')
                     .ariaLabel('Delete contacts')
                     .targetEvent(ev)
-                    .ok('Yes')
+                    .ok('Si')
                     .cancel('No');
 
                 $mdDialog.show(confirm).then(function(result) {
@@ -173,7 +173,7 @@
 
         vm.logout = function(ev) {
             var confirm = $mdDialog.confirm()
-            .textContent('Logout. Are you sure?')
+            .textContent('Logout. Sei sicuro?')
                 .ariaLabel('Logout')
                 .targetEvent(ev)
                 .ok('Yes')
