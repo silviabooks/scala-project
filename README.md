@@ -11,6 +11,10 @@ La persistenza è implementata con database noSql MongoDB, l'interfaccia grafica
 
 L'applicazione, infine, si comporta da Broker di eventi verso i client connessi attraverso una webSocket: ogni evento pubblicato da un *admin* (Publisher) viene notificato ai client (Subscribers).
 
+- [Deployment/Docker](https://github.com/silviabooks/scala-project#deployment-e-docker)
+- [Mocked Data](https://github.com/silviabooks/scala-project#seeds-per-demo)
+- [Interfaccia REST](https://github.com/silviabooks/scala-project#interfaccia-alle-api-rest)
+- [Documentazione & Demo Online](https://github.com/silviabooks/scala-project#documentazione-e-demo)
 #### Deployment e Docker
 
 Il deploy puo' essere effettuato, out-of-the-box, con **[Docker](https://docs.docker.com/docker-for-mac/install/)** e **[Docker Compose](https://docs.docker.com/compose/install/)**:
@@ -62,7 +66,9 @@ La documentazione del codice e' disponibile [qui](http://silviabooks.github.io/s
 
 La documentazione dettagliata delle API rest su [/apidocs](https://github.com/silviabooks/scala-project/tree/master/apidocs).
 
-Una versione demo dell'applicazione e' disponibile (**TODO**) su http://ASAPDomainToProvide: espone, come descritto [sopra](deployment-e-docker) i due servizi backend (:8080) e web frontend (:80).
+Una versione demo dell'applicazione e' disponibile [qui](http://aleskandro.lucylaika.ovh): espone, come descritto [sopra](deployment-e-docker) i due servizi backend (:8080) e web frontend (:80).
+
+**NOTA**: Il database viene ripristinato allo stato iniziale e ripopolato con i [dati Mock](https://github.com/silviabooks/scala-project#seeds-per-demo) ogni ora.
 
 Demo admins:
 - aleskandro@scala
