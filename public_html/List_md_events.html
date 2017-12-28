@@ -7,23 +7,50 @@
                 </md-input-container>
                 <thead md-head md-order="filter" ng-show="customListCtrlEvents.items.length > 0">
                 <tr md-row>
-                    <th md-column md-order-by="name"><span>Name</span></th>
-                    <th md-column md-order-by="description"><span>Description</span></th>
+                    <th md-column md-order-by="name"><span>Nome evento</span></th>
+                    <th md-column md-order-by="description"><span>Descrizione</span></th>
+                    <th md-column><span>Data</span></th>
+                    <th md-column><span>Prezzo</span></th>
+                    <th md-column><span>Acquista</span></th>
                 </tr>
                 </thead>
                 <tbody md-body>
                 <tr md-row
-                    ng-repeat="item in customListCtrlEvents.items | orderBy: filter | filter:item.q as results"
-                    ng-class="customListCtrlEvents.selectedItem.indexOf(item) != -1 ? 'selected': ''"
-                    ng-click="customListCtrlEvents.toggleSelection(item)" >
+                    ng-repeat="item in customListCtrlEvents.items | orderBy: filter | filter:item.q as results">
                 <span class="animate-repeat" ng-if="customListCtrlEvents.items.length == 0">
                     <strong>Nessun risultato.</strong>
                 </span>
-                    <td md-cell>{{item.name}}</td>
+                    <td md-cell
+                        ng-class="customListCtrlEvents.selectedItem.indexOf(item) != -1 ? 'selected': ''"
+                        ng-click="customListCtrlEvents.toggleSelection(item)">{{item.name}}</td>
                     <td md-cell>{{item.description}}</td>
+                    <td md-cell>{{item.date | date:'medium'}}</td>
+                    <td md-cell>{{item.price | currency:"€ "}}</td>
+                    <td md-cell>
+                        <md-button class="md-primary"
+                                   aria-label="Add authorization"
+                                   ng-click="customListCtrlEvents.buyTicket($event, item._id)">
+                            <md-icon>add</md-icon>
+                        </md-button>
+
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </md-table-container>
 </div>
 </md-content>
+
+<!--
+
+buyTicket($event, item._id)
+
+ @param _id the ObjectId
+  * @param name The Name of the [[Event]]
+  * @param date The DateTime for the [[Event]]
+  * @param category A category for the [[Event]]
+  * @param description A long description for the [[Event]]
+  * @param quantity The quantity of available tickets for the [[Event]]
+  * @param price The price for a [[Ticket]]
+  -->
+

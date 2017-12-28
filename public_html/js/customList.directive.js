@@ -101,9 +101,10 @@
     }
 
 
-    function customListControllerEvents(storageService) {
+    function customListControllerEvents(storageService, $mdDialog) {
         var vm = this;
         //Select or deselect the given item
+
         vm.toggleSelection = function(item) {
             item.type = 'events';
             if (vm.selectedItem.indexOf(item) == -1)
@@ -114,6 +115,37 @@
                 vm.selectedItem.splice(index,1);
             }
         }
+
+        vm.buyTicket = function(ev, eventId) {
+
+            var confirm = $mdDialog.confirm()
+                .textContent('Vuoi acquistare un biglietto per questo evento?')
+                .ariaLabel('Buy')
+                .targetEvent(ev)
+                .ok('Si')
+                .cancel('No');
+
+            var userId = null;
+            var userName = null;
+
+            $mdDialog.show(confirm).then(function(answer) {
+                if (answer) {
+                    storageService.getAll("me").then(function(response) {
+                        userName = response.name;
+                        userId = response._id;
+                        console.log(userId + ' ' + userName);
+                    });
+
+                    var ciao = {};
+                    ciao['tickets'].event = eventId;
+                    ciao['tickets'].ticketHolder = userName;
+                    ciao['tickets'].boughtFrom = userId;
+                    storageService.add('tickets', ciao);
+
+                }
+            });
+        }
+
 
     }
 
