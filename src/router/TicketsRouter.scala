@@ -32,7 +32,7 @@ object TicketsRouter extends JsonMarshalling {
           } ~ post {
             entity(as[Ticket]) {
               ticket =>
-                if (user.isAdmin | user._id.toString == ticket._id.toString) {
+                if (user.isAdmin | user._id.toString == ticket.boughtFrom.toString) {
                   onSuccess(ticketHandler ? CreateTicket(ticket)) {
                     case r: StatusCode =>
                       complete(r)

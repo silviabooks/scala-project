@@ -17,7 +17,8 @@
         this.auth   = btoa("");
         this.logged = false;
         this.admin  = false;
-
+        this.user   = undefined;
+        this.me     = me;
         function getAll(type) {
             return $http({
                 method: 'GET',
@@ -25,6 +26,16 @@
                 url: endpoint + '/' + type
             }).then(function(response) {
                 return Object.keys(response.data).map(function(key) {return response.data[key]; })
+            });
+        }
+
+        function me() {
+            return $http({
+                method: 'GET',
+                headers: {"Authorization": "Basic " + this.auth},
+                url: endpoint + '/me'
+            }).then(function(response) {
+                return response.data;
             });
         }
 
@@ -55,7 +66,7 @@
             var url = endpoint + '/' + type;
             var a = null;
             value[type]._id = "temp";
-
+            //var currentUser = atob(this.auth);
             switch (type) {
                 case 'events':
                     value['events'].date = value['events'].date.toISOString();
@@ -68,12 +79,9 @@
                     a = $http.post(url, value['users'], config);
                     break;
                 case 'tickets':
-                    // TODO mettere altre robe se servono
                     a = $http.post(url, value['tickets'], config);
                     break;
             }
-            //console.log(value[type]);
-            //console.log(a);
             return a;
         }
     }

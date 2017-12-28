@@ -7,7 +7,7 @@ L'applicazione gestisce la prenotazione e l’acquisto online di biglietti per q
 
 Il backend è realizzato in linguaggio Scala, in particolare utilizzando il framework Akka per implementare il modello ad attori e la libreria Akka-HTTP per implementare le chiamare REST.
 
-La persistenza è implementata con database noSql MongoDB, l'interfaccia grafica in AngularJS/Material.
+La persistenza è implementata con database noSql MongoDB, l'interfaccia grafica in AngularJS/Material: quest'ultima scelta permette di aver un client portabile dell'applicazione, come web app o, integrato con framework come Ionic, come mobile app.
 
 L'applicazione, infine, si comporta da Broker di eventi verso i client connessi attraverso una webSocket: ogni evento pubblicato da un *admin* (Publisher) viene notificato ai client (Subscribers).
 

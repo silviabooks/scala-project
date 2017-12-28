@@ -22,7 +22,7 @@
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ScaladocSettings">
-    <option name="outputDir" value="$PROJECT_DIR$/doc" />
+    <option name="outputDir" value="$PROJECT_DIR$/docs" />
     <option name="additionalFlags" value="" />
     <option name="maxHeapSize" value="" />
     <option name="docTitle" value="BoxOffice documentation - DIEEI - Advanced Programming Languages" />
