@@ -287,6 +287,7 @@
             vm.ws.onmessage = function (evt) {
                 var received_msg = JSON.parse(evt.data);
                 vm.websocketMessages.push(received_msg);
+                vm.load();
                 console.log("Message is received...");
             };
 
