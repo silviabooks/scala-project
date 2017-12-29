@@ -80,10 +80,10 @@
             if (vm.selectedItem != null) {
                 var confirm = $mdDialog.confirm()
 
-                .textContent(vm.selectedItem.length + ' element(s) will be deleted. Are you sure?')
+                .textContent(vm.selectedItem.length + ' elementi verranno cancellati. Sei sicuro?')
                     .ariaLabel('Delete contacts')
                     .targetEvent(ev)
-                    .ok('Yes')
+                    .ok('Si')
                     .cancel('No');
 
                 $mdDialog.show(confirm).then(function(result) {
@@ -153,6 +153,7 @@
                     clickOutsideToClose: true,
                     templateUrl: '/form_' + vm.tabSelected() + '.html?'
             });
+
             $mdDialog.show(confirm).then(function(answer){
                 if(answer)
                 {
@@ -161,31 +162,6 @@
             });
             return confirm;
         }
-
-        /*vm.buyTicket = function(ev, eventId) {
-            var userId = null;
-            var userName = null;
-
-            storageService.getAll("me").then(function(response) {
-                userName = response.name;
-                userId = response._id;
-                console.log(userId + ' ' + userName);
-            });
-            var confirm = $mdDialog.confirm()
-                .textContent('Vuoi acquistare un biglietto per questo evento?')
-                .ariaLabel('Buy')
-                .targetEvent(ev)
-                .ok('Si')
-                .cancel('No');
-            $mdDialog.show(confirm).then(function(answer) {
-                if (answer) {
-                    answer.newItem.event = eventId;
-                    answer.newItem.ticketHolder = userName;
-                    answer.newItem.boughtFrom = userId;
-                    vm.create(answer.newItem, 'tickets');
-                }
-            });
-        }*/
 
         $scope.answer = function(answer){
             $mdDialog.hide(answer);
@@ -197,7 +173,7 @@
 
         vm.logout = function(ev) {
             var confirm = $mdDialog.confirm()
-            .textContent('Logout. Are you sure?')
+            .textContent('Logout. Sei sicuro?')
                 .ariaLabel('Logout')
                 .targetEvent(ev)
                 .ok('Yes')

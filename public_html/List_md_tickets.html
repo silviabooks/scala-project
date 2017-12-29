@@ -7,14 +7,13 @@
                 </md-input-container>
                 <thead md-head md-order="filter" ng-show="customListCtrlTickets.items.length > 0">
                 <tr md-row>
-                    <th md-column md-order-by="_id"><span>Ticket ID</span></th>
+                    <th md-column md-order-by="_id"><span>ID biglietto</span></th>
                     <th md-column md-order-by="ticketHolder"><span>Proprietario</span></th>
                     <th md-column md-order-by="event"><span>Evento</span></th>
                     <th md-column md-order-by="user"><span>Acquistato da</span></th>
                 </tr>
                 </thead>
                 <tbody md-body>
-                <!-- TODO filtrare per utente loggato -->
                 <tr md-row
                     ng-repeat="item in customListCtrlTickets.items | orderBy: filter | filter:item.q as results"
                     ng-class="customListCtrlTickets.selectedItem.indexOf(item) != -1 ? 'selected': ''"
@@ -25,7 +24,7 @@
                     <td md-cell>{{item._id}}</td>
                     <td md-cell>{{item.ticketHolder}}</td>
                     <td md-cell>{{item.eventDetails.name}}</td>
-                    <td md-cell>{{item.userDetails.name}}</td> <!-- questo in realtà è ticketHolder lol -->
+                    <td md-cell>{{item.userDetails.name}}</td>
                 </tr>
                 </tbody>
             </table>

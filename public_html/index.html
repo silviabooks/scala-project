@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <script>
-        const V = "";
-    </script>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +24,6 @@
     <!--<script src="vendor/js/angular-material.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-base64/2.0.5/angular-base64.js"></script>-->
 
     <!-- Code Behind -->
     <script src="js/script.js?"></script>
@@ -60,7 +55,7 @@
                 </div>
             </md-toolbar>
             <md-content class="no-scroll-x">
-                <h4>Notifications</h4>
+                <h5 class="notifications">NOTIFICHE</h5>
                 <md-list>
                     <md-list-item ng-repeat="event in ctrl.websocketMessages">
                         <p>{{event.name}} | {{event.description}} </p>
@@ -71,8 +66,6 @@
                     <md-tab label="Eventi" md-on-select="ctrl.tabSelected('events')" class="scroll-y">
                         <custom-list-events items="ctrl.items['events']" selected-item="ctrl.selectedItem"></custom-list-events>
                     </md-tab>
-                    <!-- TODO add a button per event to purchase the ticket related to that event -->
-
                     <md-tab ng-if="ctrl.isLoggedIn()" label="I miei biglietti" md-on-select="ctrl.tabSelected('tickets')" class="scroll-y">
                         <custom-list-tickets items="ctrl.items['tickets']"
                                              selected-item="ctrl.selectedItem">
@@ -85,7 +78,8 @@
                 </md-tabs>
 
             </md-content>
-            <md-button class="md-fab md-primary add-button" ng-if="ctrl.isAdmin() && ctrl.tab != 'tickets'" aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
+            <md-button class="md-fab md-primary add-button" ng-if="ctrl.isAdmin() && ctrl.tab != 'tickets'"
+                       aria-label="Add authorization" ng-click="ctrl.helperAdd($event)">
                 <md-icon>add</md-icon>
             </md-button>
 
