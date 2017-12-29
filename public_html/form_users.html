@@ -17,8 +17,9 @@
                    placeholder="Email">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-xs="">
-            <input type="checkbox" name="isAdmin" id="isAdmin" ng-model="vm.newItem.isAdmin">
-            <label for="isAdmin">Admin?</label>
+            <md-switch class="md-warning" name="isAdmin" ng-model="vm.newItem.isAdmin">
+                Utente amministratore
+            </md-switch>
         </md-input-container>
         <div layout-align="space-between center">
             <md-button ng-click="myTask.$valid && answer(vm)"

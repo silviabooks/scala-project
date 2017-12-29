@@ -7,11 +7,11 @@
                 </md-input-container>
                 <thead md-head md-order="filter" ng-show="customListCtrlUsers.items.length > 0">
                 <tr md-row>
-                    <th md-column><span>ID</span></th>
+                    <th md-column md-order-by="_id"><span>ID</span></th>
                     <th md-column md-order-by="name"><span>Nome</span></th>
-                    <th md-column><span># Telefono</span></th>
-                    <th md-column><span>Email</span></th>
-                    <th md-column><span>Admin?</span></th>
+                    <th md-column md-order-by="telNumber"><span># Telefono</span></th>
+                    <th md-column md-order-by="email"><span>Email</span></th>
+                    <th md-column md-order-by="isAdmin"><span>Admin?</span></th>
                 </tr>
                 </thead>
                 <tbody md-body>
