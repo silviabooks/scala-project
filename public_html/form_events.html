@@ -6,31 +6,36 @@
                    ng-required="true" size="30"
                    placeholder="Nome dell'evento">
         </md-input-container>
+
+        <div class="grouped">
+            <md-input-container flex-gt-xs="">
+                <md-datepicker id="date" ng-required="true"
+                               ng-model="vm.newItem.date"></md-datepicker>
+                <label for="date">Data dell'evento</label>
+            </md-input-container>
+            <md-input-container flex-gt-xs="">
+                <input ng-model="vm.newItem.category"
+                       ng-required="true" size="30"
+                       placeholder="Categoria">
+            </md-input-container>
+        </div>
         <md-input-container class="md-block" flex-gt-xs="">
-            <md-datepicker id="date" ng-required="true"
-                           ng-model="vm.newItem.date"></md-datepicker>
-            <label for="date">Data dell'evento</label>
+            <textarea ng-model="vm.newItem.description"
+                ng-required="true" type="text" rows="2"
+                placeholder="Descrizione"></textarea>
         </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs="">
-            <input ng-model="vm.newItem.category"
-                   ng-required="true" size="30"
-                   placeholder="Categoria">
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs="">
-            <input ng-model="vm.newItem.description"
-                   ng-required="true" size="30"
-                   placeholder="Descrizione">
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs="">
-            <input type="number" ng-model="vm.newItem.quantity"
-                   ng-required="true" size="30"
-                   placeholder="# biglietti disponibili">
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-xs="">
-            <input type="number" ng-model="vm.newItem.price"
-                   ng-required="true" size="30"
-                   placeholder="Prezzo biglietto">
-        </md-input-container>
+        <div class="grouped">
+            <md-input-container flex-gt-xs="" class="nopadding">
+                <input type="number" ng-model="vm.newItem.quantity"
+                       ng-required="true" size="30" min="0"
+                       placeholder="# biglietti disponibili">
+            </md-input-container>
+            <md-input-container flex-gt-xs="" class="nopadding">
+                <input type="number" ng-model="vm.newItem.price"
+                       ng-required="true" size="30"
+                       placeholder="Prezzo biglietto (eur)" min="0" step="0.01">
+            </md-input-container>
+        </div>
         <div layout-align="space-between center">
             <md-button ng-click="myTask.$valid && answer(vm)"
                    class="md-raised md-primary" type="submit">Salva</md-button>

@@ -55,10 +55,13 @@
                 </div>
             </md-toolbar>
             <md-content class="no-scroll-x">
-                <h5 class="notifications">NOTIFICHE</h5>
+                <h5 class="notifications">Notifiche</h5>
                 <md-list>
                     <md-list-item ng-repeat="event in ctrl.websocketMessages">
-                        <p>{{event.name}} | {{event.description}} </p>
+                        <p>{{event.name}} | {{event.description}}</p>
+                    </md-list-item>
+                    <md-list-item ng-if="ctrl.websocketMessages.length == 0">
+                        <p>Nessuna notifica.</p>
                     </md-list-item>
                 </md-list>
                 <md-divider></md-divider>

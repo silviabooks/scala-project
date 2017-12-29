@@ -41,17 +41,14 @@
     function TodoController($scope, storageService, $mdDialog, $http, $filter, $q) {
         var vm = this;
         vm.items = {};
-        //vm.cazzo = {};
         vm.createTabSelectedIndex = 0;
         vm.ws = undefined;
         vm.websocketMessages = [];
         vm.load = function() {
-            vm.get('events');
-            vm.get('tickets');
-            vm.get('users');
-            vm.selectedItem = [];
             storageService.auth = vm.getCookie("auth");
-            vm.doLogin();
+            vm.doLogin()
+            vm.get('events');
+            vm.selectedItem = [];
         }
 
         vm.get = function(what) {
@@ -184,7 +181,7 @@
                     storageService.logged = false;
                     storageService.admin  = false;
                     storageService.auth   = undefined;
-                    setCookie("auth", "", -1);
+                    vm.setCookie("auth", "", -1);
                     console.log("Logout");
                 }
             });
@@ -221,7 +218,7 @@
         };
 
         vm.doLogin = function(wrong) {
-            storageService.me().then(function(response) {
+            return storageService.me().then(function(response) {
                 if (response.isAdmin) {
                     console.log("Admin logged in");
                     storageService.admin = true;
@@ -232,6 +229,8 @@
                 storageService.user  = response;
                 storageService.logged = true;
                 vm.setCookie("auth", storageService.auth, 15);
+                vm.get('tickets');
+                vm.get('users');
             }).catch(function() {
                 console.log("Wrong credentials");
                 if (wrong !== undefined) {
