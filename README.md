@@ -66,7 +66,7 @@ La documentazione del codice e' disponibile [qui](http://silviabooks.github.io/s
 
 La documentazione dettagliata delle API rest su [/apidocs](https://github.com/silviabooks/scala-project/tree/master/apidocs).
 
-Una versione demo dell'applicazione e' disponibile [qui](http://aleskandro.lucylaika.ovh): espone, come descritto [sopra](deployment-e-docker) i due servizi backend (:8080) e web frontend (:80).
+Una versione demo dell'applicazione e' disponibile [qui](http://boxoffice.lucylaika.ovh): espone, come descritto [sopra](deployment-e-docker) i due servizi backend (:8080) e web frontend (:80).
 
 **NOTA**: Il database viene ripristinato allo stato iniziale e ripopolato con i [dati Mock](https://github.com/silviabooks/scala-project#seeds-per-demo) ogni ora.
 
